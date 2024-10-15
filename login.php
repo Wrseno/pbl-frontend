@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Polivent</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="tailwind.config.js"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="container mx-auto max-w-2xl relative">
+      <!-- <div
+        class="absolute w-[150px] h-[150px] rounded-full blur-[100px] top-0 -right-0 md:-right-20 bg-gradient-to-r from-blue-300 via-primary to-blue-300"
+      ></div> -->
+      <div
+        class="absolute w-[200px] h-[200px] rounded-full blur-[100px] bottom-0 -left-0 md:-left-0 bg-gradient-to-r from-blue-300 via-primary to-blue-300"
+      ></div>
+      <form id="loginForm" method="post">
+        <div class="min-h-screen py-6 flex flex-col justify-center sm:py-12">
+          <div class="relative py-3">
+            <div
+              class="shadow-lg absolute inset-0 bg-gradient-to-r from-primary to-secondary transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"
+            ></div>
+            <div
+              class="relative px-4 py-10 bg-gray-100 shadow-lg sm:rounded-3xl sm:p-20"
+            >
+              <div class="max-w-md mx-auto">
+                <div>
+                  <h1 class="text-2xl font-semibold">Login</h1>
+                  <p class="">Masuk menggunakan akun Anda yang valid.</p>
+                </div>
+                <div class="divide-y divide-gray-200">
+                  <div
+                    class="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7"
+                  >
+                    <div class="relative">
+                      <input
+                        autocomplete="off"
+                        id="email"
+                        name="email"
+                        type="text"
+                        class="bg-transparent peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:borer-rose-600"
+                        placeholder="Email address"
+                      />
+                      <label
+                        for="email"
+                        class="absolute left-0 -top-3.5 text-gray-900 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-900 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-900 peer-focus:text-sm"
+                        >Email Address</label
+                      >
+                    </div>
+                    <div class="relative">
+                      <input
+                        autocomplete="off"
+                        id="password"
+                        name="password"
+                        type="password"
+                        class="bg-transparent tw peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:borer-rose-600"
+                        placeholder="Password"
+                      />
+                      <label
+                        for="password"
+                        class="absolute left-0 -top-3.5 text-gray-900 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-900 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-900 peer-focus:text-sm"
+                        >Password</label
+                      >
+                    </div>
+                    <div class="relative flex justify-between">
+                      <button class="bg-secondary rounded-md px-4 py-1">
+                        Submit
+                      </button>
+                      <!-- <a href="#" class="text-gray-300 hover:text-gray-400"
+                        >Lupa password?</a
+                      > -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </main>
+  </body>
+</html>
+
+<script>
+  document.getElementById("loginForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    try {
+      const response = await fetch("http://localhost/pbl/api-coba/auth", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
+      const result = await response.json();
+      if (response.ok) {
+        alert(result.message + "Sayangnya Indonesia Kalah");
+        window.location.href = "dashboard.php";
+      } else {
+        alert(result.message);
+      }
+    } catch (error) {
+      console.error("Error : ", error);
+    }
+  });
+</script>
