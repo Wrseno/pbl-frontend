@@ -1,0 +1,86 @@
+{
+  "events": [
+    {
+      "id": 1,
+      "user": "UKM PCC",
+      "user_profile": "img/pcc.png",
+      "title": "Techcomfest",
+      "date_add": "1 Januari 2025",
+      "category": "Technologies",
+      "desc": "Techcomfest merupakan lomba bertema teknologi tingkat nasional, yang diselenggarakan oleh UKM Polytechnic Computer Club.",
+      "poster": "img/tech.jpg",
+      "location": "GKT Lt. 1",
+      "quota": 50
+    },
+    {
+      "id": 2,
+      "user": "UKM PCC",
+      "title": "Workshop Training Basic",
+      "date_add": "10 Oktober 2024",
+      "category": "Technologies",
+      "desc": "Workshop Training Basic merupakan pelatihan mengenai Software, Multimedia, dan Network. Yang diselenggarakan oleh UKM Polytechnic Computer Club.",
+      "poster": "img/music.jpeg",
+      "location": "MST Lt. 3",
+      "quota": 100
+    },
+    {
+      "id": 3,
+      "user": "UKM ADBIS",
+      "title": "Competition: Business Plan",
+      "date_add": "20 Desember 2024",
+      "category": "Business",
+      "desc": "Business Plan merupakan lomba yang berkaitan dengan perancangan bisnis.",
+      "poster": "img/techsauce.jpg",
+      "location": "GKT Lt. 1",
+      "quota": 50
+    },
+
+    {
+      "id": 4,
+      "user": "UKM ADBIS",
+      "title": "Competition: Business Plan",
+      "date_add": "20 Desember 2024",
+      "category": "Business",
+      "desc": "Business Plan merupakan lomba yang berkaitan dengan perancangan bisnis.",
+      "poster": "img/techsauce.jpg",
+      "location": "GKT Lt. 1",
+      "quota": 50
+    },
+    {
+      "id": 5,
+      "user": "UKM PCC",
+      "title": "Techcomfest",
+      "date_add": "1 Januari 2025",
+      "category": "Technologies",
+      "desc": "Techcomfest merupakan lomba bertema teknologi tingkat nasional, yang diselenggarakan oleh UKM Polytechnic Computer Club.",
+      "poster": "img/tech.jpg",
+      "location": "GKT Lt. 1",
+      "quota": 50
+    },
+    {
+      "id": 6,
+      "user": "UKM PCC",
+      "title": "Workshop Training Basic",
+      "date_add": "10 Oktober 2024",
+      "category": "Technologies",
+      "desc": "Workshop Training Basic merupakan pelatihan mengenai Software, Multimedia, dan Network. Yang diselenggarakan oleh UKM Polytechnic Computer Club.",
+      "poster": "img/music.jpeg",
+      "location": "MST Lt. 3",
+      "quota": 100
+    }
+  ],
+  "categories": [
+    {
+      "id": 1,
+      "name": "Technologies"
+    },
+    {
+      "id": 2,
+      "name": "Business"
+    },
+    {
+      "id": 3,
+      "name": "Economics"
+    }
+  ]
+}
