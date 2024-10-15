@@ -1,0 +1,18 @@
+{
+  "devDependencies": {
+    "tailwindcss": "^3.4.13"
+  },
+  "dependencies": {
+    "json-server": "^1.0.0-beta.3"
+  },
+  "name": "polyvent",
+  "version": "1.0.0",
+  "main": "tailwind.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "npx json-server server/db.json"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
