@@ -10,6 +10,10 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="tailwind.config.js"></script>
     <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css"
+    />
   </head>
   <body>
     <main class="container mx-auto max-w-2xl relative">
@@ -83,36 +87,8 @@
         </div>
       </form>
     </main>
+
+    <script src="js/api/actions/Login.js" type="module"></script>
+    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
   </body>
 </html>
-
-<script>
-  document.getElementById("loginForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-
-    try {
-      const response = await fetch("http://localhost/pbl/api-coba/auth", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-      });
-      const result = await response.json();
-      if (response.ok) {
-        alert(result.message + "Sayangnya Indonesia Kalah");
-        window.location.href = "dashboard.php";
-      } else {
-        alert(result.message);
-      }
-    } catch (error) {
-      console.error("Error : ", error);
-    }
-  });
-</script>
