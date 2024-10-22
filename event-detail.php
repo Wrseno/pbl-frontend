@@ -14,24 +14,129 @@ session_start();
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="tailwind.config.js"></script>
     <link rel="stylesheet" href="style.css" />
+    <style type="text/tailwindcss">
+      .text-gradient {
+        @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-300 via-primary to-blue-300;
+      }
+
+      @layer utilities {
+        .paused {
+          animation-play-state: paused;
+        }
+      }
+    </style>
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css"
     />
   </head>
-  <body>
+  <body class="poppins-regular">
     <main class="container mx-auto max-w-screen-2xl">
-      <section id="event-detail-container"></section>
+      <!-- <section id="event-detail-container"></section> -->
+      <!-- Breadcrumb -->
+      <nav class="flex px-8 py-3 text-gray-700" aria-label="Breadcrumb">
+        <ol
+          class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse"
+        >
+          <li class="inline-flex items-center">
+            <a
+              href="index"
+              class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-primary"
+            >
+              <svg
+                class="w-3 h-3 me-2.5"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z"
+                />
+              </svg>
+              Home
+            </a>
+          </li>
+          <li>
+            <div class="flex items-center">
+              <svg
+                class="rtl:rotate-180 block w-3 h-3 mx-1 text-gray-400"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 6 10"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="m1 9 4-4-4-4"
+                />
+              </svg>
+              <a
+                href="events"
+                class="ms-1 text-sm font-medium text-gray-700 hover:text-primary md:ms-2"
+                >Events</a
+              >
+            </div>
+          </li>
+          <li aria-current="page">
+            <div class="flex items-center">
+              <svg
+                class="rtl:rotate-180 w-3 h-3 mx-1 text-gray-400"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 6 10"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="m1 9 4-4-4-4"
+                />
+              </svg>
+              <span
+                id="current-page"
+                class="ms-1 text-sm font-medium text-secondary md:ms-2"
+              ></span>
+            </div>
+          </li>
+        </ol>
+      </nav>
+      <section id="event-detail-container" class="px-8"></section>
+      <section id="comments" class="p-8">
+        <div class="md:flex justify-between gap-2 mb-6">
+          <div class="flex gap-2 items-center w-full">
+            <img
+              src="img/Logo Polivent.png"
+              alt="Foto profil"
+              class="w-[50px] rounded-full"
+            />
+            <input
+              type="text"
+              placeholder="Tambahkan komentar..."
+              id="input-comment"
+              class="border-b-2 w-full outline-none focus:border-primary duration-300 ease-in-out p-3"
+            />
+          </div>
+          <button
+            type="submit"
+            id="btn-comment"
+            class="bg-gray-100 p-2 px-3 md:px-6 mt-3 md:mt-0 rounded-full"
+          >
+            Komentar
+          </button>
+        </div>
+        <div id="comments-container" class="grid gap-3"></div>
+      </section>
     </main>
 
-    <script src="js/api/EventDetail.js" type="module"></script>
+    <!-- <script src="js/api/EventDetail.js" type="module"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
     <script>
-      function getQueryParam(param) {
-        const urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get(param);
-      }
-
       const notyf = new Notyf({
         duration: 1000,
         position: {
@@ -39,59 +144,10 @@ session_start();
           y: "top",
         },
       });
-
-      const button = `
-        <?php if (!isset($_SESSION['users_id'])): ?>
-        <a
-          href="login"
-          class="p-2 px-8 bg-secondary text-white rounded-full font-semibold"
-          >Join</a
-        >
-        <?php else: ?>
-        <button
-          type="button"
-          id="button-join"
-          class="p-2 px-8 bg-secondary text-white rounded-full font-semibold"
-        >
-          Join
-        </button>
-        <?php endif; ?>
-        `;
-
-      setTimeout(() => {
-        document.getElementById("join-button-container").innerHTML = button;
-        const eventId = getQueryParam("id");
-        const userId = `<?php echo isset($_SESSION["users_id"]) ? json_encode($_SESSION["users_id"]) : 'null'; ?>`;
-        const joinButton = document.getElementById("button-join");
-
-        if (joinButton) {
-          joinButton.addEventListener("click", async () => {
-            try {
-              const response = await fetch(
-                "http://localhost/pbl/api-coba/registration",
-                {
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({
-                    event_id: eventId,
-                    users_id: userId,
-                  }),
-                }
-              );
-              const result = await response.json();
-              if (response.ok) {
-                notyf.success(result.message);
-              } else {
-                notyf.error(result.message);
-              }
-            } catch (error) {
-              console.error("Error", error);
-            }
-          });
-        }
-      }, 1000);
     </script>
+    <script src="js/api/EventDetail.js" type="module"></script>
+    <script src="js/api/actions/JoinEvent.js" type="module"></script>
+    <script src="js/api/actions/CommentEvent.js" type="module"></script>
+    <script src="js/api/Comments.js" type="module"></script>
   </body>
 </html>
