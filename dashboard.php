@@ -25,11 +25,20 @@ if (!isset($_SESSION['users_id'])) {
       href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css"
     />
     <script src="tailwind.config.js"></script>
+    <style type="text/tailwindcss">
+      .text-gradient {
+        @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-300 via-primary to-blue-300;
+      }
+
+      @layer utilities {
+        .paused {
+          animation-play-state: paused;
+        }
+      }
+    </style>
   </head>
-  <body>
-    <nav
-      class="fixed top-0 z-50 w-full bg-white border-b border-gray-200  "
-    >
+  <body class="poppins-regular">
+    <nav class="fixed top-0 z-50 w-full bg-white border-b border-gray-200">
       <div class="px-3 py-3 lg:px-5 lg:pl-3">
         <div class="flex items-center justify-between">
           <div class="flex items-center justify-start rtl:justify-end">
@@ -38,7 +47,7 @@ if (!isset($_SESSION['users_id'])) {
               data-drawer-toggle="logo-sidebar"
               aria-controls="logo-sidebar"
               type="button"
-              class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 "
+              class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
             >
               <span class="sr-only">Open sidebar</span>
               <svg
@@ -56,14 +65,10 @@ if (!isset($_SESSION['users_id'])) {
               </svg>
             </button>
             <a href="index" class="flex ms-2 md:me-24">
-              <img
-                src="img/logo.png"
-                class="h-8 me-3"
-                alt="Polivent Logo"
-              />
+              <img src="img/logo.png" class="h-8 me-3" alt="Polivent Logo" />
               <span
-                class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap "
-                >Polivent</span
+                class="self-center text-xl font-bold sm:text-2xl whitespace-nowrap text-gradient"
+                >POLIVENT</span
               >
             </a>
           </div>
@@ -72,7 +77,7 @@ if (!isset($_SESSION['users_id'])) {
               <div>
                 <button
                   type="button"
-                  class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 "
+                  class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300"
                   aria-expanded="false"
                   data-dropdown-toggle="dropdown-user"
                 >
@@ -85,15 +90,15 @@ if (!isset($_SESSION['users_id'])) {
                 </button>
               </div>
               <div
-                class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow "
+                class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow"
                 id="dropdown-user"
               >
                 <div class="px-4 py-3" role="none">
-                  <p class="text-sm text-gray-900 " role="none">
+                  <p class="text-sm text-gray-500" role="none">
                     <?php echo $_SESSION["username"] ?>
                   </p>
                   <p
-                    class="text-sm font-medium text-gray-900 truncate "
+                    class="text-sm font-medium text-gray-500 truncate"
                     role="none"
                   >
                     <?php echo $_SESSION["email"] ?>
@@ -118,18 +123,18 @@ if (!isset($_SESSION['users_id'])) {
 
     <aside
       id="logo-sidebar"
-      class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0  "
+      class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0"
       aria-label="Sidebar"
     >
-      <div class="h-full px-3 pb-4 overflow-y-auto bg-white ">
+      <div class="h-full px-3 pb-4 overflow-y-auto bg-white">
         <ul class="space-y-2 font-medium">
           <li>
             <a
               href="#"
-              class="flex items-center p-2 text-gray-900 rounded-lg "
+              class="flex items-center p-2 text-gray-500 rounded-lg bg-gray-100"
             >
               <svg
-                class="w-5 h-5 text-gray-500 transition duration-75 "
+                class="w-5 h-5 text-gray-500 transition duration-75"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="currentColor"
@@ -147,24 +152,32 @@ if (!isset($_SESSION['users_id'])) {
           </li>
           <li>
             <a
-              href="#"
-              class="flex items-center p-2 text-gray-900 rounded-lg  group"
+              href="history"
+              class="flex items-center p-2 text-gray-500 rounded-lg group"
             >
-            <svg 
-            class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 "
-            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-              <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 6a.75.75 0 0 0-1.5 0v6c0 .414.336.75.75.75h4.5a.75.75 0 0 0 0-1.5h-3.75V6Z" clip-rule="evenodd" />
-            </svg>
+              <svg
+                class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class="size-6"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 6a.75.75 0 0 0-1.5 0v6c0 .414.336.75.75.75h4.5a.75.75 0 0 0 0-1.5h-3.75V6Z"
+                  clip-rule="evenodd"
+                />
+              </svg>
               <span class="ms-3">History</span>
             </a>
           </li>
           <li>
             <button
               id="logoutButton"
-              class="w-full flex items-center p-2 text-gray-900 rounded-lg  group"
+              class="w-full flex items-center p-2 text-gray-500 rounded-lg group"
             >
               <svg
-                class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 "
+                class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -186,16 +199,46 @@ if (!isset($_SESSION['users_id'])) {
     </aside>
 
     <div class="p-4 sm:ml-64">
-      <div
-        class="p-4 border-2 border-gray-200 border-dashed rounded-lg  mt-14"
-      >
-        <div class="grid grid-cols-3 gap-4 mb-4">
+      <div class="p-4 rounded-lg mt-14">
+        <input
+          type="text"
+          class="w-full border border-gray-300 rounded-lg mb-8"
+          placeholder="Cari event..."
+        />
+        <div class="grid md:grid-cols-3 gap-4 mb-4">
+          <div
+            class="bg-gradient-to-r from-primary to-secondary text-white p-6 rounded-lg"
+          >
+            <div class="flex items-center gap-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                fill="currentColor"
+                class="bi bi-ticket-fill"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M1.5 3A1.5 1.5 0 0 0 0 4.5V6a.5.5 0 0 0 .5.5 1.5 1.5 0 1 1 0 3 .5.5 0 0 0-.5.5v1.5A1.5 1.5 0 0 0 1.5 13h13a1.5 1.5 0 0 0 1.5-1.5V10a.5.5 0 0 0-.5-.5 1.5 1.5 0 0 1 0-3A.5.5 0 0 0 16 6V4.5A1.5 1.5 0 0 0 14.5 3z"
+                />
+              </svg>
+              <h3 class="text-lg font-semibold" id="total-joined-event"></h3>
+            </div>
+            <p>Event yang diikuti</p>
+          </div>
+          <div
+            class="bg-gradient-to-r from-tertiary to-yellow-300 text-white p-6 rounded-lg"
+          >
+            <p>Event yang baru saja diikuti</p>
+            <h3 class="text-lg font-semibold" id="currently-joined-event"></h3>
+          </div>
         </div>
       </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+    <script src="js/api/Dashboard.js" type="module"></script>
     <script src="js/api/actions/Logout.js" type="module"></script>
   </body>
 </html>
