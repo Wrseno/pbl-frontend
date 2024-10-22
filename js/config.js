@@ -7,7 +7,7 @@ if (APP_DEV) {
   API_BASE_URL = "http://localhost/pbl/api-coba";
 } else {
   JSON_BASE_URL = "http://localhost:3000";
-  API_BASE_URL = "http://localhost";
+  API_BASE_URL = "http://localhost/pbl/api-coba";
 }
 
 export {JSON_BASE_URL, API_BASE_URL};
