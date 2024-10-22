@@ -1,3 +1,10 @@
+<?php
+session_start();
+if (isset($_SESSION["users_id"])) {
+  header("Location: index");
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -14,15 +21,27 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css"
     />
+    <style type="text/tailwindcss">
+      .text-gradient {
+        @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-300 via-primary to-blue-300;
+      }
+
+      @layer utilities {
+        .paused {
+          animation-play-state: paused;
+        }
+      }
+    </style>
   </head>
   <body>
-    <main class="container mx-auto max-w-2xl relative">
-      <!-- <div
-        class="absolute w-[150px] h-[150px] rounded-full blur-[100px] top-0 -right-0 md:-right-20 bg-gradient-to-r from-blue-300 via-primary to-blue-300"
-      ></div> -->
+    <main class="relative grid items-center my-auto min-h-screen">
       <div
-        class="absolute w-[200px] h-[200px] rounded-full blur-[100px] bottom-0 -left-0 md:-left-0 bg-gradient-to-r from-blue-300 via-primary to-blue-300"
+        class="absolute w-[150px] h-[150px] rounded-full blur-[100px] top-0 -right-0 md:-right-0 bg-gradient-to-r from-blue-300 via-primary to-blue-300"
       ></div>
+      <div
+        class="-z-10 absolute w-[200px] h-[200px] rounded-full blur-[100px] bottom-0 -left-0 md:-left-0 bg-gradient-to-r from-blue-300 via-primary to-blue-300"
+      ></div>
+      <!-- 
       <form id="loginForm" method="post">
         <div class="min-h-screen py-6 flex flex-col justify-center sm:py-12">
           <div class="relative py-3">
@@ -75,9 +94,9 @@
                       <button class="bg-secondary rounded-md px-4 py-1">
                         Submit
                       </button>
-                      <!-- <a href="#" class="text-gray-300 hover:text-gray-400"
+                       <a href="#" class="text-gray-300 hover:text-gray-400"
                         >Lupa password?</a
-                      > -->
+                      > 
                     </div>
                   </div>
                 </div>
@@ -86,6 +105,76 @@
           </div>
         </div>
       </form>
+       -->
+      <div class="px-4 md:px-12 mx-auto w-full">
+        <div class="grid md:grid-cols-2 md:gap-8 w-full">
+          <div id="login-image" class="grid items-center justify-center text-center">
+            <img
+              src="img/Logo Polines 1.png"
+              alt="Logo Polivent"
+              class="w-[400px]"
+            />
+            <h2 class="text-6xl text-gradient font-bold">POLIVENT</h2>
+          </div>
+          <div
+            class="items-center my-auto p-8 rounded-md w-full"
+            id="login-form"
+          >
+            <h1 class="font-bold text-3xl">Masuk</h1>
+            <p>Masuk menggunakan data Anda yang valid.</p>
+            <form id="loginForm" method="post">
+              <div class="my-4">
+                <label
+                  for="email"
+                  class="block text-sm font-medium text-gray-800"
+                >
+                  Email
+                </label>
+                <input
+                  type="text"
+                  id="email"
+                  name="email"
+                  required=""
+                  placeholder="Masukkan Email"
+                  class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-co-dark-blue focus:border-co-dark-blue"
+                />
+              </div>
+              <div class="my-4">
+                <label
+                  for="password"
+                  class="block text-sm font-medium text-gray-800"
+                >
+                  Password
+                </label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  required=""
+                  placeholder="Masukkan password"
+                  class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-co-dark-blue focus:border-co-dark-blue"
+                />
+              </div>
+
+              <button
+                class="w-full mt-4 mb-12 p-2 px-6 bg-gradient-to-r from-primary to-secondary text-white rounded-md"
+              >
+                Login
+              </button>
+              <div
+                class="flex flex-col sm:flex-row gap-3 justify-between items-center"
+              >
+                <div class="text-sm text-gray-800 underline">
+                  <a href="/register">Belum punya akun?</a>
+                </div>
+                <div class="text-sm text-gray-800 underline">
+                  <a href="/forgot-password">Lupa password?</a>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
     </main>
 
     <script src="js/api/actions/Login.js" type="module"></script>
