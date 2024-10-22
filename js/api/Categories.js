@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
       data.forEach((category) => {
         categoriesContainer.innerHTML = `
                 <div class="flex">
-                    <a href="${API_BASE_URL}/events?category=${category.id}">
+                    <a href="events?category=${category.id}">
                         <h3>${category.category_name}</h3>
                     </a>
                 </div>

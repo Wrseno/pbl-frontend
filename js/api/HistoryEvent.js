@@ -1,25 +1,33 @@
 import {API_BASE_URL} from "../config.js";
 import {LocationSvgIcon, CalendarSvgIcon} from "../components/svg.js";
-import {formattedDate} from "../utils.js";
+import {formattedDate, getSession} from "../utils.js";
 
-const eventsContainer = document.getElementById("events-container");
+const historyEventsContainer = document.getElementById(
+  "history-event-container"
+);
 
 document.addEventListener("DOMContentLoaded", () => {
   const fetchEvents = async () => {
+    const session = await getSession();
+    const userId = session.data.users_id;
+
     try {
-      const response = await fetch(`${API_BASE_URL}/events`);
+      const response = await fetch(
+        `${API_BASE_URL}/registration?user_id=${userId}`
+      );
       const {data} = await response.json();
 
-      if (data.length === 0) {
-        eventsContainer.innerHTML = "<p>No events found.</p>";
+      if (!data) {
+        historyEventsContainer.innerHTML =
+          "<p>Tidak ada event yang diikuti.</p>";
         return;
       }
 
       const sliceEvents = data.slice(0, 6);
 
       sliceEvents.forEach((event) => {
-        eventsContainer.innerHTML += `
-          <div class="relative snap-center shrink-0">
+        historyEventsContainer.innerHTML += `
+          <div class="relative">
           <img
             src="${event.poster}"
             alt="${event.title}"
@@ -33,16 +41,6 @@ document.addEventListener("DOMContentLoaded", () => {
                   <div class="desc text-white">
 
                   <h3 class="text-lg poppins-semibold">${event.title}</h3>
-                  <div class="flex gap-2 items-center">
-                    ${LocationSvgIcon}
-                    <p class="poppins-tight">${event.location}</p>
-                  </div>
-                  <div class="flex gap-2 items-center">
-                    ${CalendarSvgIcon}
-                    <p class="poppins-tight">${formattedDate(
-                      event.date_add
-                    )}</p>
-                  </div>
                 </div>              
               </div>
             </div>
@@ -52,7 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     } catch (error) {
       console.error("Failed to fetch events:", error);
-      eventsContainer.innerHTML = "<p>Error fetching events.</p>";
+      historyEventsContainer.innerHTML = "<p>Error fetching events.</p>";
     }
   };
 

@@ -1,65 +1,128 @@
 import {JSON_BASE_URL, API_BASE_URL} from "../config.js";
-import {LocationSvgIcon, CalendarSvgIcon} from "../components/svg.js";
+import {
+  LocationSvgIcon,
+  CalendarSvgIcon,
+  ClockSvgIcon,
+  LikesSvgIcon,
+} from "../components/svg.js";
+import {formattedDate, getQueryParam} from "../utils.js";
 
 const eventDetailContainer = document.getElementById("event-detail-container");
-
-function getQueryParam(param) {
-  const urlParams = new URLSearchParams(window.location.search);
-  return urlParams.get(param);
-}
-
+const currentPage = document.getElementById("current-page");
 const eventId = getQueryParam("id");
 
 document.addEventListener("DOMContentLoaded", () => {
   const fetchEventById = async (eventId) => {
     try {
       const response = await fetch(`${API_BASE_URL}/events/${eventId}`);
-      if (!response.ok) {
+      if (!response.ok)
         throw new Error(`HTTP error! status: ${response.status}`);
-      }
+
       const {data} = await response.json();
+
+      if (data) currentPage.textContent = `${data.title}`;
 
       if (data) {
         eventDetailContainer.innerHTML += ` 
-          <div class="relative grid w-full items-center">
+        <div class="grid md:grid-cols-2 items-center gap-8">
+          <div class="md:hidden mt-6">
             <img
-              src="${data.poster}"
-              alt="${data.event_name}"
-              class="w-full h-[60vh] blur-sm rounded-b-2xl shadow-lg"
+              src=${data.poster}
+              alt="thumbnail"
+              class="w-full h-[200px] rounded-lg"
             />
-            <div class="w-full grid justify-center">
-              <div class="w-full md:w-8/12 absolute -bottom-[70%] md:-bottom-1/2 xl:-bottom-44 left-1/2 -translate-x-1/2 bg-white shadow-lg p-4 md:p-8  rounded-xl">
-                <h2 class="font-bold text-3xl">${data.title}</h2>
-                  <div class="md:flex md:justify-between items-center">
-                    <div>  
-                      <div class="flex gap-2 items-center">
-                        ${LocationSvgIcon}
-                        <p class="poppins-tight">${data.location}</p>
-                      </div>
-                      <div class="flex gap-2 items-center">
-                        ${CalendarSvgIcon}
-                        <p class="poppins-tight">${data.date_add}</p>
-                      </div>
-                    </div>
-                    <div class="flex gap-2 items-center">
-                      <img src="img/logo.png" alt="a" class="w-[20px]"/>
-                      <p>Polivent</p>
-                    </div>
+          </div>
+          <div>
+            <div class="md:my-12 grid gap-4">
+              <div>
+                <h4 class="text-lg font-medium text-tertiary">Events</h4>
+                <h2 class="text-4xl font-extrabold text-gradient">
+                  ${data.title}
+                </h2>
+              </div>
+              <div>
+                <p class="font-semibold">Deskripsi</p>
+                <p>
+                  ${data.desc_event}
+                </p>
+              </div>
+            </div>
+            <div class="flex justify-between items-center">
+              <div class="grid gap-2">
+                <p class="font-medium text-gray-500">Ends in</p>
+                <div class="flex items-center gap-4">
+                  <div class="grid text-center">
+                    <span
+                      class="bg-gray-100 p-2 px-4 rounded-md font-bold text-tertiary"
+                      >1</span
+                    >
+                    <span class="text-sm text-gray-500 font-medium">Days</span>
                   </div>
-                  <div class="my-4">
-                    <h3 class="text-lg font-semibold">Description</h3>
-                    <p>${data.desc_event}</p>
+                  <div class="grid text-center">
+                    <span
+                      class="bg-gray-100 p-2 px-4 rounded-md font-bold text-tertiary"
+                      >10</span
+                    >
+                    <span class="text-sm text-gray-500 font-medium">Hrs</span>
                   </div>
-                  <div class="flex justify-between">
-                    <div>
-                      <p class="text-tertiary text-lg font-bold">Free</p>
-                      <p class="text-gray-500 text-sm">45 Ticket Left</p>
-                    </div>
-                    <div id="join-button-container"></div>
+                  <div class="grid text-center">
+                    <span
+                      class="bg-gray-100 p-2 px-4 rounded-md font-bold text-tertiary"
+                      >1</span
+                    >
+                    <span class="text-sm text-gray-500 font-medium">Mins</span>
                   </div>
+                </div>
+              </div>
+              <div class="bg-gray-100 rounded-full">
+                <button
+                  class="w-full flex items-center gap-2 py-3 px-6 text-sm font-medium text-rose-700"
+                >
+                  ${LikesSvgIcon}
+                  Likes
+                </button>
               </div>
             </div>
           </div>
+          <div class="hidden md:block">
+            <img
+              src=${data.poster}
+              alt="thumbnail"
+              class="w-full h-[300px] rounded-lg"
+            />
+          </div>
+        </div>
+        <div
+          class="flex flex-wrap justify-center md:grid md:grid-cols-5 gap-4 items-center border-t border-b my-6 p-4"
+        >
+          <div class="border-r">
+            <div class="flex items-center gap-2 justify-center text-gray-500">
+              ${LocationSvgIcon}
+              <p class="font-medium">Lokasi</p>
+            </div>
+            <p class="text-center text-gray-500">${data.location}</p>
+          </div>
+          <div class="border-r">
+            <div class="flex items-center gap-2 justify-center text-gray-500">
+              ${ClockSvgIcon}
+              <p class="font-medium">Waktu</p>
+            </div>
+            <p class="text-center text-gray-500">08.00 - 16.00 WIB</p>
+          </div>
+          <div class="border-r">
+            <div class="flex items-center gap-2 justify-center text-gray-500">
+              ${CalendarSvgIcon}
+              <p class="font-medium">Tanggal</p>
+            </div>
+            <p class="text-center text-gray-500">${formattedDate(
+              data.date_start
+            )}</p>
+          </div>
+          <div
+            class="w-full col-span-2 mx-auto justify-center"
+            id="join-button-container"
+          ></div>
+        </div>
         `;
       } else {
         eventDetailContainer.innerHTML = `
