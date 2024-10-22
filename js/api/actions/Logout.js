@@ -16,6 +16,7 @@ document.getElementById("logoutButton").addEventListener("click", async () => {
     notyf.success(result.message);
     setTimeout(() => {
       window.location.reload();
+      window.location.href = "index";
     }, 1000);
   } catch (error) {
     console.error("Error : ", error);

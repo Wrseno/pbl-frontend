@@ -28,7 +28,7 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
     if (response.ok) {
       notyf.success(result.message);
       setTimeout(() => {
-        window.location.href = "dashboard";
+        window.location.href = "index";
       }, 1000);
     } else {
       notyf.error(result.message);
