@@ -642,9 +642,9 @@ session_start();
     </main>
 
     <footer
-      class="w-full bg-gradient-to-r from-secondary via-primary to-secondary p-20 mt-32"
+      class="w-full bg-gradient-to-r from-secondary via-primary to-secondary p-8 md:p-20 mt-32"
     >
-      <div class="grid grid-cols-3 gap-8 text-white">
+      <div class="grid md:grid-cols-3 gap-8 text-white">
         <div>
           <div class="grid mx-auto items-center-gap-2">
             <img src="img/Logo Polivent.png" alt="Logo Polivent" class="" />
