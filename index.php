@@ -595,5 +595,32 @@ session_start();
     <script src="js/api/Events.js" type="module"></script>
     <!-- <script src="js/api/Categories.js" type="module"></script> -->
     <script src="js/app.js" type="module"></script>
+    <!-- <script>
+      const swiperEl = document.querySelector('swiper-container');
+
+      // swiper parameters
+      const swiperParams = {
+        slidesPerView: 1,
+        breakpoints: {
+          640: {
+            slidesPerView: 2,
+          },
+          1024: {
+            slidesPerView: 3,
+          },
+        },
+        on: {
+          init() {
+            // ...
+          },
+        },
+      };
+
+      // now we need to assign all parameters to Swiper element
+      Object.assign(swiperEl, swiperParams);
+
+      // and now initialize it
+      swiperEl.initialize();
+    </script> -->
   </body>
 </html>
