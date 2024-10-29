@@ -1,4 +1,4 @@
-const APP_DEV = true;
+const APP_DEV = false;
 let JSON_BASE_URL;
 let API_BASE_URL;
 
