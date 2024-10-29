@@ -200,6 +200,7 @@ if (!isset($_SESSION['users_id'])) {
 
     <div class="p-4 sm:ml-64">
       <div class="p-4 rounded-lg mt-14">
+        <h1 class="text-2xl font-bold mb-4">Halo, <span id="username" class="text-gradient text-3xl"></span> Selamat datang di Polivent</h1>
         <input
           type="text"
           class="w-full border border-gray-300 rounded-lg mb-8"

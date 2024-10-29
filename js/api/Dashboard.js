@@ -3,6 +3,7 @@ import {API_BASE_URL} from "../config.js";
 
 const totalJoinedEvent = document.getElementById("total-joined-event");
 const currentlyJoinedEvent = document.getElementById("currently-joined-event");
+const username = document.getElementById("username");
 const session = await getSession();
 const userId = session.data.users_id;
 
@@ -21,6 +22,7 @@ const userId = session.data.users_id;
     }
 
     totalJoinedEvent.textContent = data ? data.length : 0;
+    username.textContent = session.data.username;
   } catch (err) {
     console.error(err);
   }

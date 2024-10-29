@@ -140,7 +140,7 @@ session_start();
             ></div>
           </div>
         </section>
-        <section id="events" class="relative">
+        <section id="events" class="relative grid justify-center">
           <div class="text-center mb-12">
             <h4 class="text-xl poppins-bold">Coming Soon</h4>
             <h2 class="text-3xl poppins-bold text-gradient">Big Events</h2>
@@ -148,18 +148,31 @@ session_start();
               Cari semua event menarik sesuai dengan minatmu.
             </p>
           </div>
-          <div class="relative overflow-hidden">
+          <div class="container">
+            <swiper-container
+              class="mySwiper max-w-[400px] lg:max-w-full"
+              pagination="true"
+              pagination-clickable="true"
+              space-between="30"
+              effect="fade"
+              navigation="true"
+              autoplay="true"
+              id="events-container"
+            ></swiper-container>
+          </div>
+          <!-- <div class="relative overflow-hidden">
             <div
               class="relative w-full flex gap-4 snap-x overflow-x-auto"
               id="events-container"
             ></div>
-          </div>
+          </div> -->
           <div class="absolute top-0 right-0">
-            <button
+            <a
+              href="events"
               class="poppins-medium mt-8 p-2 px-6 bg-gradient-to-r from-yellow-300 via-tertiary to-yellow-300 text-white rounded-full"
             >
               View All
-            </button>
+            </a>
           </div>
         </section>
         <section id="download">
@@ -676,7 +689,9 @@ session_start();
       </div>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
     <script src="js/api/Events.js" type="module"></script>
     <!-- <script src="js/api/Categories.js" type="module"></script> -->
+    <script src="js/app.js" type="module"></script>
   </body>
 </html>
