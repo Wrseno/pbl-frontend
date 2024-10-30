@@ -625,16 +625,15 @@ session_start();
             </div>
           </div>
         </section>
-        <section id="about">
-          <div class="mb-12 text-center">
-            <h2 class="text-3xl poppins-bold text-tertiary">Tentang Kami</h2>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis
-              aspernatur laboriosam, illum, quidem architecto obcaecati quia
-              fugit nulla minima cumque eligendi molestiae? Accusamus aliquid
-              reiciendis dignissimos nobis, ut vel, modi nam, aut harum vero
-              odio voluptates quos suscipit ducimus. Iusto corrupti ex, modi
-              molestias hic necessitatibus error facere excepturi dignissimos?
+        <<section id="about" class="flex flex-col items-center">
+          <div class="mb-12 text-center max-w-[600px]">
+            <h2 class="text-3xl poppins-bold" style="color: #2E91ED;">Tentang Kami</h2>
+            <hr class="border-t border-blue-500 w-1/2 mx-auto my-4"> <!-- Garis tipis dengan warna biru -->
+            <p class="mb-4 text-justify" style="color: #2196F3; margin-top: 1.5rem;">
+            Polivent atau singkatan dari Politeknik Event berdiri pada Tahun 2024, kami berkomitmen untuk menyediakan informasi berbagai macam Event Polines menarik yang dapat kamu ikuti sesuai dengan minatmu tanpa dipungut biaya sepeser pun!
+            </p>
+            <p class="mb-4" style="color: #2196F3; margin-top: 1.5rem;">
+            Tinggal daftar, pilih Event yang ingin diikuti, lalu rasakan kemudahannya!
             </p>
           </div>
         </section>
