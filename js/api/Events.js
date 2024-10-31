@@ -1,6 +1,6 @@
-import {API_BASE_URL} from "../config.js";
-import {LocationSvgIcon, CalendarSvgIcon} from "../components/svg.js";
-import {formattedDate} from "../utils.js";
+import { API_BASE_URL } from "../config.js";
+import { LocationSvgIcon, CalendarSvgIcon } from "../components/svg.js";
+import { formattedDate } from "../utils.js";
 
 const eventsContainer = document.getElementById("events-container");
 
@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const fetchEvents = async () => {
     try {
       const response = await fetch(`${API_BASE_URL}/events`);
-      const {data} = await response.json();
+      const { data } = await response.json();
 
       if (data.length === 0) {
         eventsContainer.innerHTML = "<p>No events found.</p>";
