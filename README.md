@@ -2,7 +2,7 @@
 ## KELOMPOK 2 PROJECT BASED LEARNING
 
 Cara menggunakan
-  - clone project `git clonse https://github.com/Wrseno/pbl-frontend.git`
+  - clone project `git clone https://github.com/Wrseno/pbl-frontend.git`
   - letakkan folder pada htdocs untuk xampp dan www untuk laragon
   - ganti `API_BASE_URL` pada file `config.js` sesuai dengan path localhost API polivent https://
 
