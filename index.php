@@ -26,72 +26,7 @@ session_start();
     </style>
   </head>
   <body>
-    <nav
-      class="bg-gray-50 navbar fixed left-0 right-0 text-slate-800 z-10 p-2 poppins-regular duration-300"
-    >
-      <div class="flex justify-between items-center w-[92%] mx-auto">
-        <div class="flex items-center gap-1">
-          <img
-            class="w-12 cursor-pointer"
-            src="img/Logo Polivent.png"
-            alt="Logo Polivent"
-          />
-          <h3 class="font-bold text-lg text-gradient hidden sm:block">
-            POLIVENT
-          </h3>
-        </div>
-        <div
-          class="nav-links duration-500 md:static absolute bg-gray-50 lg:bg-transparent md:min-h-fit min-h-[60vh] left-0 -top-[800px] md:w-auto w-full flex items-center px-5"
-        >
-          <ul
-            class="flex md:flex-row flex-col md:items-center md:gap-[4vw] gap-8"
-          >
-            <li>
-              <a class="hover:text-primary duration-300" href="#">Home</a>
-            </li>
-            <li>
-              <a class="hover:text-primary duration-300" href="#events"
-                >Events</a
-              >
-            </li>
-            <li>
-              <a class="hover:text-primary duration-300" href="#download"
-                >Downloads</a
-              >
-            </li>
-            <li>
-              <a class="hover:text-primary duration-300" href="#categories"
-                >Categories</a
-              >
-            </li>
-            <li>
-              <a class="hover:text-primary duration-300" href="#about">About</a>
-            </li>
-          </ul>
-        </div>
-        <div class="flex items-center gap-6">
-          <?php if(!isset($_SESSION["users_id"])): ?>
-          <a
-            href="login"
-            class="bg-gradient-to-r from-primary to-secondary text-white px-5 py-2 rounded-full hover:scale-[0.96] duration-300"
-          >
-            Sign In
-          </a>
-          <?php else: ?>
-          <a
-            href="dashboard"
-            class="bg-gradient-to-r from-primary to-secondary text-white px-5 py-2 rounded-full hover:scale-[0.96] duration-300"
-          >
-            Dashboard
-          </a>
-          <?php endif; ?>
-          <ion-icon
-            name="menu"
-            class="text-3xl cursor-pointer md:hidden toggle-icon"
-          ></ion-icon>
-        </div>
-      </div>
-    </nav>
+    <?php include_once 'header.php' ?>
 
     <main class="container mx-auto max-w-screen-2xl">
       <div class="grid gap-y-60 px-2 sm:px-12">
@@ -140,7 +75,7 @@ session_start();
             ></div>
           </div>
         </section>
-        <section id="events" class="relative">
+        <section id="events" class="relative grid justify-center">
           <div class="text-center mb-12">
             <h4 class="text-xl poppins-bold">Coming Soon</h4>
             <h2 class="text-3xl poppins-bold text-gradient">Big Events</h2>
@@ -148,18 +83,31 @@ session_start();
               Cari semua event menarik sesuai dengan minatmu.
             </p>
           </div>
-          <div class="relative overflow-hidden">
+          <div class="container">
+            <swiper-container
+              class="mySwiper max-w-[400px] lg:max-w-full"
+              pagination="true"
+              pagination-clickable="true"
+              space-between="30"
+              effect="fade"
+              navigation="true"
+              autoplay="true"
+              id="events-container"
+            ></swiper-container>
+          </div>
+          <!-- <div class="relative overflow-hidden">
             <div
               class="relative w-full flex gap-4 snap-x overflow-x-auto"
               id="events-container"
             ></div>
-          </div>
+          </div> -->
           <div class="absolute top-0 right-0">
-            <button
+            <a
+              href="events"
               class="poppins-medium mt-8 p-2 px-6 bg-gradient-to-r from-yellow-300 via-tertiary to-yellow-300 text-white rounded-full"
             >
               View All
-            </button>
+            </a>
           </div>
         </section>
         <section id="download">
@@ -640,42 +588,38 @@ session_start();
       </div>
     </main>
 
-    <footer
-      class="w-full bg-gradient-to-r from-secondary via-primary to-secondary p-8 md:p-20 mt-32"
-    >
-      <div class="grid md:grid-cols-3 gap-8 text-white">
-        <div>
-          <div class="grid mx-auto items-center-gap-2">
-            <img src="img/Logo Polivent.png" alt="Logo Polivent" class="" />
-            <h3 class="text-2xl font-bold">POLIVENT</h3>
-          </div>
-          <p class="">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti,
-            eveniet labore error quas vel recusandae maiores commodi qui quos
-            iure.
-          </p>
-        </div>
-        <div>
-          <h2 class="text-xl font-bold mb-6">Hubungi Kami</h2>
-          <div class="grid gap-4">
-            <div>
-              <p>Alamat:</p>
-              <p>Jalan Prof. Soedarto, Tembalang, Semarang</p>
-            </div>
-            <div>
-              <p>Email:</p>
-              <p>info@polivent.com</p>
-            </div>
-            <div>
-              <p>Phone:</p>
-              <p>+62 812-3456-8989</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </footer>
+    <?php include_once 'footer.php' ?>
 
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
     <script src="js/api/Events.js" type="module"></script>
     <!-- <script src="js/api/Categories.js" type="module"></script> -->
+    <script src="js/app.js" type="module"></script>
+    <!-- <script>
+      const swiperEl = document.querySelector('swiper-container');
+
+      // swiper parameters
+      const swiperParams = {
+        slidesPerView: 1,
+        breakpoints: {
+          640: {
+            slidesPerView: 2,
+          },
+          1024: {
+            slidesPerView: 3,
+          },
+        },
+        on: {
+          init() {
+            // ...
+          },
+        },
+      };
+
+      // now we need to assign all parameters to Swiper element
+      Object.assign(swiperEl, swiperParams);
+
+      // and now initialize it
+      swiperEl.initialize();
+    </script> -->
   </body>
 </html>

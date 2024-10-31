@@ -8,13 +8,13 @@ tailwind.config = {
       },
       keyframes: {
         infiniteSlider: {
-          "0%": {transform: "translateX(0)"},
+          "0%": { transform: "translateX(0)" },
           "100%": {
             transform: "translateX(calc(-250px * 5))",
           },
         },
         infiniteSliderReverse: {
-          "0%": {transform: "translateX(calc(-250px * 5))"},
+          "0%": { transform: "translateX(calc(-250px * 5))" },
           "100%": {
             transform: "translateX(0)",
           },
