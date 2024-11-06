@@ -17,7 +17,7 @@ import {API_BASE_URL} from "../../config.js";
     const comment = commentInput?.value.trim();
 
     if (!commentInput) {
-      notyf.error("Comment input tidak ditemukan!");
+      notyf.error("Komen input tidak ditemukan!");
       return;
     }
 
@@ -47,13 +47,13 @@ import {API_BASE_URL} from "../../config.js";
       const result = await response.json();
 
       if (response.ok) {
-        notyf.success(result.message);
+        notyf.success("Berhasil mengirim komentar");
         setTimeout(() => {
           window.location.reload();
         }, 1000);
         commentInput.value = "";
       } else {
-        notyf.error(result.message || "Gagal mengirim komentar.");
+        notyf.error("Gagal mengirim komentar.");
       }
     } catch (error) {
       notyf.error("Terjadi kesalahan jaringan atau server.");

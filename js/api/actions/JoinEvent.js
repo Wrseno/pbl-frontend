@@ -11,7 +11,31 @@ setTimeout(async () => {
     userId = session.data.users_id;
   }
 
+  async function isUserJoinedEvent() {
+    const response = await fetch(
+      `${API_BASE_URL}/registration?user_id=${userId}&event_id=${eventId}`
+    );
+    const result = await response.json();
+    return result.data.isJoined;
+  }
+
+  const isJoined = await isUserJoinedEvent();
+
   if (session) {
+    if (isJoined) {
+      container.innerHTML = `
+        <button
+          type="button"
+          id="button-join"
+          class="w-full mx-auto p-2 px-8 bg-slate-100 text-secondary rounded-full font-semibold"
+          disabled
+        >
+          Sudah Terdaftar
+        </button>
+      `;
+      return;
+    }
+
     container.innerHTML = `
       <button
         type="button"
@@ -36,6 +60,8 @@ setTimeout(async () => {
   const joinButton = document.getElementById("button-join");
 
   joinButton?.addEventListener("click", async () => {
+    console.log(eventId, session.data.users_id);
+
     try {
       const response = await fetch(`${API_BASE_URL}/registration`, {
         method: "POST",
@@ -47,14 +73,16 @@ setTimeout(async () => {
           users_id: userId,
         }),
       });
-      const result = await response.json();
       if (response.ok) {
-        notyf.success(result.message);
+        notyf.success("Berhasil mendaftar event!");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
       } else {
-        notyf.error(result.message);
+        notyf.error("Gagal mendaftar event!");
       }
     } catch (error) {
       console.error("Error", error);
     }
   });
-}, 100);
+}, 500);

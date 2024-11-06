@@ -26,12 +26,12 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
     });
     const result = await response.json();
     if (response.ok) {
-      notyf.success(result.message);
+      notyf.success("Berhasil login!");
       setTimeout(() => {
         window.location.href = "index";
       }, 1000);
     } else {
-      notyf.error(result.message);
+      notyf.error("result.message");
     }
   } catch (error) {
     console.error("Error : ", error);
