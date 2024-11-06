@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
           "<p>Jadilah yang pertama berkomentar.</p>";
       }
     } catch (error) {
-      commentsContainer.innerHTML = "<p>Error fetching comments.</p>";
+      commentsContainer.innerHTML = "<p>Jadilah yang pertama berkomentar</p>";
     }
   };
   fetchComments();

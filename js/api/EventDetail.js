@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <img
               src=${data.poster}
               alt="thumbnail"
-              class="w-full h-[200px] rounded-lg"
+              class="w-full h-[200px] rounded-lg object-cover"
             />
           </div>
           <div>
@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <img
               src=${data.poster}
               alt="thumbnail"
-              class="w-full h-[300px] rounded-lg"
+              class="w-full h-[350px] rounded-lg object-cover"
             />
           </div>
         </div>
