@@ -32,6 +32,7 @@ session_start();
   </head>
   <body class="poppins-regular">
     <main class="container mx-auto max-w-screen-2xl">
+      <div id="loading-container"></div>
       <!-- <section id="event-detail-container"></section> -->
       <!-- Breadcrumb -->
       <nav class="flex px-8 py-3 text-gray-700" aria-label="Breadcrumb">
@@ -106,30 +107,10 @@ session_start();
           </li>
         </ol>
       </nav>
+
       <section id="event-detail-container" class="px-8"></section>
       <section id="comments" class="p-8">
-        <div class="md:flex justify-between gap-2 mb-6">
-          <div class="flex gap-2 items-center w-full">
-            <img
-              src="img/Logo Polivent.png"
-              alt="Foto profil"
-              class="w-[50px] rounded-full"
-            />
-            <input
-              type="text"
-              placeholder="Tambahkan komentar..."
-              id="input-comment"
-              class="border-b-2 w-full outline-none focus:border-primary duration-300 ease-in-out p-3"
-            />
-          </div>
-          <button
-            type="submit"
-            id="btn-comment"
-            class="bg-gray-100 p-2 px-3 md:px-6 mt-3 md:mt-0 rounded-full"
-          >
-            Komentar
-          </button>
-        </div>
+        <div id="comments-input"></div>
         <div id="comments-container" class="grid gap-3"></div>
       </section>
     </main>
@@ -147,7 +128,9 @@ session_start();
     </script>
     <script src="js/api/EventDetail.js" type="module"></script>
     <script src="js/api/actions/JoinEvent.js" type="module"></script>
-    <script src="js/api/actions/CommentEvent.js" type="module"></script>
+    <script src="js/api/actions/AddCommentEvent.js" type="module"></script>
+    <script src="js/api/actions/AddLikesEvent.js" type="module"></script>
+    <script src="js/api/actions/AddReplyComment.js" type="module"></script>
     <script src="js/api/Comments.js" type="module"></script>
   </body>
 </html>

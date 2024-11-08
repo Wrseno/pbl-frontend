@@ -85,6 +85,15 @@ if (!isset($_SESSION['users_id'])) {
 
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+    <script>
+      const notyf = new Notyf({
+        duration: 1000,
+        position: {
+          x: "right",
+          y: "top",
+        },
+      });
+    </script>
     <script src="js/api/Dashboard.js" type="module"></script>
     <script src="js/api/actions/Logout.js" type="module"></script>
   </body>

@@ -40,6 +40,16 @@ session_start();
 
     <?php include_once './components/footer.php' ?>
 
+    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+    <script>
+      const notyf = new Notyf({
+        duration: 1000,
+        position: {
+          x: "right",
+          y: "top",
+        },
+      });
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
     <script src="js/api/Events.js" type="module"></script>

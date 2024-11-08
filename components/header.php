@@ -2,7 +2,7 @@
       class="bg-gray-50 navbar fixed left-0 right-0 text-slate-800 z-20 p-2 poppins-regular duration-300"
     >
       <div class="flex justify-between items-center w-[92%] mx-auto">
-        <a href='index.php' class="flex items-center gap-1">
+        <a href='./' class="flex items-center gap-1">
           <img
             class="w-12 cursor-pointer"
             src="img/Logo Polivent.png"

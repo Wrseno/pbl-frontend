@@ -15,8 +15,8 @@ session_start();
       href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
     />
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="style.css" />
-    <script src="tailwind.config.js"></script>
+    <link rel="stylesheet" href="./style.css" />
+    <script src="./tailwind.config.js"></script>
     <style type="text/tailwindcss">
       .text-gradient {
         @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-300 via-primary to-blue-300;
@@ -31,7 +31,6 @@ session_start();
   </head>
 
   <body class="bg-white-50">
-    <!-- Header -->
     <?php include_once './components/header.php'; ?>
 
     <main class="container mx-auto max-w-screen-2xl p-12 grid gap-y-14 h-full">
@@ -102,7 +101,7 @@ session_start();
 
       <!-- Recommended Events Section -->
       <div class="container mx-auto my-16 hidden md:block">
-        <h2 class="text-2xl font-bold mb-4">Rekomendasi Event</h2>
+        <h2 class="text-2xl font-bold mb-4">Event Paling Banyak Disukai</h2>
 
         <!-- Swiper for Recommended Events -->
         <div class="relative">
@@ -212,11 +211,20 @@ session_start();
 
     <?php include_once './components/footer.php'; ?>
 
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+    <script>
+      const notyf = new Notyf({
+        duration: 1000,
+        position: {
+          x: "right",
+          y: "top",
+        },
+      });
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
-    <script src="js/api/List-Events.js" type="module"></script>
-    <script src="js/api/Categories.js" type="module"></script>
-    <script src="js/api/actions/Logout.js" type="module"></script>
+    <script src="./js/api/ListAllEvents.js" type="module"></script>
+    <script src="./js/api/Categories.js" type="module"></script>
+    <script src="./js/api/actions/Logout.js" type="module"></script>
   </body>
 </html>

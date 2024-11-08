@@ -177,7 +177,7 @@ if (isset($_SESSION["users_id"])) {
       </div>
     </main>
 
-    <script src="js/api/actions/Login.js" type="module"></script>
     <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+    <script src="js/api/actions/Login.js" type="module"></script>
   </body>
 </html>
