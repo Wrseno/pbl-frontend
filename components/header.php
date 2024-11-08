@@ -74,7 +74,7 @@
               >
                 <div class="w-[200px]" role="none">
                   <a href="./dashboard" class="p-2 text-sm hover:bg-gray-100 w-full block rounded-md">Dashboard</a>
-                  <a href="./history-events" class="p-2 text-sm hover:bg-gray-100 w-full block rounded-md">Riwayat Event</a>
+                  <a href="./history-events" class="p-2 text-sm hover:bg-gray-100 w-full block rounded-md">Event Yang Telah Diikuti</a>
                   <a href="./events-to-attend" class="p-2 text-sm hover:bg-gray-100 w-full block rounded-md">Event Untuk Dihadiri</a>
                   <a href="#" id="logoutButton" class="p-2 text-sm hover:bg-gray-100 w-full block rounded-md">Keluar</a>
                 </div>

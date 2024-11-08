@@ -42,8 +42,8 @@ if (!isset($_SESSION['users_id'])) {
 
     <div class="p-4">
       <div class="p-4 rounded-lg mt-14">
-        <h2 class="text-2xl font-bold text-tertiary">History Event</h2>
-        <p>Event yang pernah diikuti</p>
+        <h2 class="text-2xl font-bold text-tertiary">Event untuk dihadiri</h2>
+        <p class="mb-4">Daftar event yang harus dihadiri</p>
 
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
           <div
