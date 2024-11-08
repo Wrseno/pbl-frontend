@@ -28,22 +28,22 @@
         </div>
         <div>
           <p>Phone:</p>
-          <p>+62 812-3456-8989</p>
+          <p>+62 812-0000-0000</p>
         </div>
       </div>
     </div>
 
     <!-- Kanan -->
-    <div class="text-right">
+    <div>
       <h2 class="text-xl font-bold mb-6">Informasi Tambahan</h2>
       <p>Ikuti kami di media sosial untuk mendapatkan informasi terbaru.</p>
-      <div class="flex justify-end mt-4">
+      <div class="flex mt-4">
         <!-- Facebook -->
 
         <!-- Instagram -->
         <a
           href="#"
-          class="w-9 h-9 mr-3 rounded-full flex justify-center items-center text-slate-300 hover:text-white"
+          class="w-9 h-9 mr-3 rounded-full flex justify-center items-center text-slate-100 hover:text-white"
         >
           <svg
             role="img"
@@ -63,7 +63,7 @@
         <!-- WhatsApp -->
         <a
           href="#"
-          class="w-9 h-9 rounded-full flex justify-center items-center text-slate-300 hover:text-white"
+          class="w-9 h-9 rounded-full flex justify-center items-center text-slate-100 hover:text-white"
         >
           <svg
             role="img"
@@ -85,6 +85,6 @@
   <hr class="border-slate-400 my-6" />
 
   <p class="mt-10 text-white text-center">
-    © 2023 Polivent. All rights reserved.
+    ©2024 Polivent. All rights reserved.
   </p>
 </footer>
