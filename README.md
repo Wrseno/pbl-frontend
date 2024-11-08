@@ -11,4 +11,8 @@ Fitur yang ada
   - melihat semua events, category dengan data dari API
   - mendaftar event yang ada
   - menambahkan komentar dan balasan komentar pada event
+  - likes event
+  - melihat riwayat event yang telah diikuti
+  - melihat event yang harus dihadiri
+  - dll.
   
