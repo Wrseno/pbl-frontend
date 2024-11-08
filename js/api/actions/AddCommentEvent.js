@@ -1,5 +1,6 @@
 import {getQueryParam, getSession} from "../../utils.js";
 import {API_BASE_URL} from "../../config.js";
+import loadComments from "../Comments.js";
 
 (async () => {
   let userId;
@@ -12,7 +13,8 @@ import {API_BASE_URL} from "../../config.js";
 
   const commentButton = document.getElementById("btn-comment");
 
-  commentButton?.addEventListener("click", async () => {
+  commentButton?.addEventListener("click", async (e) => {
+    e.preventDefault();
     const commentInput = document.getElementById("input-comment");
     const comment = commentInput?.value.trim();
 
@@ -48,15 +50,14 @@ import {API_BASE_URL} from "../../config.js";
 
       if (response.ok) {
         notyf.success("Berhasil mengirim komentar");
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
+        loadComments();
         commentInput.value = "";
       } else {
         notyf.error("Gagal mengirim komentar.");
       }
     } catch (error) {
       notyf.error("Terjadi kesalahan jaringan atau server.");
+      console.error("Error posting comment:", error);
     }
   });
 })();

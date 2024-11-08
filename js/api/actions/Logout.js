@@ -7,7 +7,8 @@ const notyf = new Notyf({
   },
 });
 
-document.getElementById("logoutButton").addEventListener("click", async () => {
+const logoutButton = document.getElementById("logoutButton");
+logoutButton?.addEventListener("click", async () => {
   try {
     const response = await fetch(`${API_BASE_URL}/auth`, {
       method: "DELETE",

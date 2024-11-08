@@ -3,11 +3,10 @@ import {formattedDate} from "../../utils.js";
 
 const inputSearch = document.getElementById("table-search");
 const btnSearch = document.getElementById("btn-search");
-const tableBody = document.getElementById("table-body"); // Make sure you select the correct table body element.
+const tableBody = document.getElementById("table-body");
 
 btnSearch.addEventListener("click", async (e) => {
   e.preventDefault();
-  // Get the latest search value here
   const search = inputSearch.value.trim().toLowerCase();
 
   if (!search) {

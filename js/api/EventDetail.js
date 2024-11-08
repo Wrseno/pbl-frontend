@@ -1,29 +1,35 @@
-import {JSON_BASE_URL, API_BASE_URL} from "../config.js";
+import {API_BASE_URL} from "../config.js";
+import initializeLikeButton from "./actions/AddLikesEvent.js";
+import initializeJoinButton from "./actions/JoinEvent.js";
+import loadComments from "./Comments.js";
+import loadDateEnd from "./Countdown.js";
+import loadReply from "./ReplyComment.js";
 import {
   LocationSvgIcon,
   CalendarSvgIcon,
   ClockSvgIcon,
   LikesSvgIcon,
 } from "../components/svg.js";
-import {formattedDate, getQueryParam} from "../utils.js";
+import {formattedDate, formattedHour, getQueryParam} from "../utils.js";
+import addReplyComment from "./actions/AddReplyComment.js";
+import {hideSkeleton, showSkeleton} from "../components/skeleton.js";
+import addReplyTagUserComment from "./actions/AddReplyTagUserComment.js";
 
 const eventDetailContainer = document.getElementById("event-detail-container");
 const currentPage = document.getElementById("current-page");
 const eventId = getQueryParam("id");
 
-document.addEventListener("DOMContentLoaded", () => {
-  const fetchEventById = async (eventId) => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/events/${eventId}`);
-      if (!response.ok)
-        throw new Error(`HTTP error! status: ${response.status}`);
+const getEventById = async (eventId) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/events/${eventId}`);
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
-      const {data} = await response.json();
+    const {data} = await response.json();
 
-      if (data) currentPage.textContent = `${data.title}`;
+    if (data) currentPage.textContent = `${data.title}`;
 
-      if (data) {
-        eventDetailContainer.innerHTML += ` 
+    if (data) {
+      eventDetailContainer.innerHTML += ` 
         <div class="grid md:grid-cols-2 items-center gap-8">
           <div class="md:hidden mt-6">
             <img
@@ -50,35 +56,47 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="flex justify-between items-center">
               <div class="grid gap-2">
                 <p class="font-medium text-gray-500">Ends in</p>
-                <div class="flex items-center gap-4">
+                <div class="flex items-center gap-4" id="countdown">
                   <div class="grid text-center">
                     <span
                       class="bg-gray-100 p-2 px-4 rounded-md font-bold text-tertiary"
-                      >1</span
+                      id="days"
+                      ></span
                     >
                     <span class="text-sm text-gray-500 font-medium">Days</span>
                   </div>
                   <div class="grid text-center">
                     <span
                       class="bg-gray-100 p-2 px-4 rounded-md font-bold text-tertiary"
-                      >10</span
+                      id="hours"
+                      ></span
                     >
                     <span class="text-sm text-gray-500 font-medium">Hrs</span>
                   </div>
                   <div class="grid text-center">
                     <span
                       class="bg-gray-100 p-2 px-4 rounded-md font-bold text-tertiary"
-                      >1</span
+                      id="mins"
+                      ></span
                     >
                     <span class="text-sm text-gray-500 font-medium">Mins</span>
+                  </div>
+                  <div class="grid text-center">
+                    <span
+                      class="bg-gray-100 p-2 px-4 rounded-md font-bold text-tertiary"
+                      id="sec"
+                      ></span
+                    >
+                    <span class="text-sm text-gray-500 font-medium">Sec</span>
                   </div>
                 </div>
               </div>
               <div class="bg-gray-100 rounded-full">
                 <button
-                  class="w-full flex items-center gap-2 py-3 px-6 text-sm font-medium text-rose-700"
+                  class="w-full flex items-center gap-2 py-3 px-6 text-sm font-medium text-gray-400"
+                  id="like-button"
                 >
-                  ${LikesSvgIcon}
+                ${LikesSvgIcon}
                   Likes
                 </button>
               </div>
@@ -107,7 +125,9 @@ document.addEventListener("DOMContentLoaded", () => {
               ${ClockSvgIcon}
               <p class="font-medium">Waktu</p>
             </div>
-            <p class="text-center text-gray-500">08.00 - 16.00 WIB</p>
+            <p class="text-center text-gray-500">${formattedHour(
+              data.date_start
+            )} - <br/> ${formattedHour(data.date_end)} WIB</p>
           </div>
           <div class="border-r">
             <div class="flex items-center gap-2 justify-center text-gray-500">
@@ -124,20 +144,31 @@ document.addEventListener("DOMContentLoaded", () => {
           ></div>
         </div>
         `;
-      } else {
-        eventDetailContainer.innerHTML = `
-          <h2 class="poppins-semibold text-xl text-center">No events found.</h2>
+    } else {
+      eventDetailContainer.innerHTML = `
+          <h2 class="poppins-semibold text-xl text-center">Tidak ada event yang ditemukan.</h2>
         `;
-      }
-    } catch (error) {
-      console.error("Failed to fetch event:", error);
-      eventDetailContainer.innerHTML = "<p>Error fetching event.</p>";
     }
-  };
-
-  if (eventId) {
-    fetchEventById(eventId);
-  } else {
-    eventDetailContainer.innerHTML = "<p>No event ID provided.</p>";
+  } catch (error) {
+    eventDetailContainer.innerHTML = `<h2 class="poppins-semibold text-xl text-center">Tidak ada event yang ditemukan.</h2>`;
   }
-});
+};
+
+const initializePage = async () => {
+  if (eventId) {
+    showSkeleton();
+    await getEventById(eventId);
+    await initializeLikeButton();
+    await initializeJoinButton();
+    await loadComments();
+    await loadDateEnd();
+    await addReplyComment();
+    await loadReply();
+    await addReplyTagUserComment();
+    hideSkeleton();
+  } else {
+    eventDetailContainer.innerHTML = "<p>Event id dibutuhkan.</p>";
+  }
+};
+
+document.addEventListener("DOMContentLoaded", initializePage);

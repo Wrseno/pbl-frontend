@@ -1,11 +1,11 @@
 import {getQueryParam, getSession} from "../../utils.js";
 import {API_BASE_URL} from "../../config.js";
 
-setTimeout(async () => {
-  const container = document.getElementById("join-button-container");
+async function initializeJoinButton() {
   let userId;
   const eventId = getQueryParam("id");
   const session = await getSession();
+  const container = document.getElementById("join-button-container");
 
   if (session) {
     userId = session.data.users_id;
@@ -17,6 +17,15 @@ setTimeout(async () => {
     );
     const result = await response.json();
     return result.data.isJoined;
+  }
+
+  async function isEventEnded() {
+    const response = await fetch(`${API_BASE_URL}/events/${eventId}`);
+    const result = await response.json();
+    const event = result.data;
+    const eventDate = new Date(event.date_end);
+    const currentDate = new Date();
+    return currentDate > eventDate;
   }
 
   const isJoined = await isUserJoinedEvent();
@@ -31,6 +40,18 @@ setTimeout(async () => {
           disabled
         >
           Sudah Terdaftar
+        </button>
+      `;
+      return;
+    } else if (await isEventEnded()) {
+      container.innerHTML = `
+        <button
+          type="button"
+          id="button-join"
+          class="w-full mx-auto p-2 px-8 bg-slate-100 text-secondary rounded-full font-semibold"
+          disabled
+        >
+          Event Berakhir
         </button>
       `;
       return;
@@ -75,9 +96,6 @@ setTimeout(async () => {
       });
       if (response.ok) {
         notyf.success("Berhasil mendaftar event!");
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
       } else {
         notyf.error("Gagal mendaftar event!");
       }
@@ -85,4 +103,6 @@ setTimeout(async () => {
       console.error("Error", error);
     }
   });
-}, 500);
+}
+
+export default initializeJoinButton;

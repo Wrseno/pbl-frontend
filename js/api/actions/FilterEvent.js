@@ -3,7 +3,7 @@ import {formattedDate} from "../../utils.js";
 
 const tableBody = document.getElementById("table-body");
 const filterRadios = document.querySelectorAll('input[name="filter-radio"]');
-const btnFilter = document.getElementById("btn-filter"); // Assuming you have a search button
+const btnFilter = document.getElementById("btn-filter");
 
 btnFilter.addEventListener("click", async () => {
   const selectedFilter = getSelectedFilter();
@@ -24,7 +24,7 @@ btnFilter.addEventListener("click", async () => {
     const {data} = await response.json();
     console.log(data);
     if (data) {
-      renderEvents(data); // Display first 5 events
+      renderEvents(data);
     } else {
       tableBody.innerHTML = `<td class="py-4>No events found</td>`;
     }
@@ -33,7 +33,6 @@ btnFilter.addEventListener("click", async () => {
   }
 });
 
-// Helper function to get the selected filter value
 function getSelectedFilter() {
   let filterValue;
   filterRadios.forEach((radio) => {
@@ -45,7 +44,6 @@ function getSelectedFilter() {
   return filterValue;
 }
 
-// Render the events in the table
 function renderEvents(data) {
   const tableBody = document.querySelector("tbody");
   tableBody.innerHTML = ""; // Clear previous results
