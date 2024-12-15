@@ -1,27 +1,27 @@
-import {getQueryParam, getSession} from "../../utils.js";
+import {getProfileUser, getQueryParam} from "../../utils.js";
 import {API_BASE_URL} from "../../config.js";
 import loadComments from "../Comments.js";
+import loadReply from "../ReplyComment.js";
 
-(async () => {
-  let userId;
-  const eventId = getQueryParam("id");
-  const session = await getSession();
-
-  if (session) {
-    userId = session.data.users_id;
-  }
-
+const AddCommentEvent = async () => {
+  const commentInput = document.getElementById("input-comment");
   const commentButton = document.getElementById("btn-comment");
 
-  commentButton?.addEventListener("click", async (e) => {
-    e.preventDefault();
-    const commentInput = document.getElementById("input-comment");
-    const comment = commentInput?.value.trim();
+  const eventId = getQueryParam("id");
+  const userProfile = await getProfileUser();
 
-    if (!commentInput) {
-      notyf.error("Komen input tidak ditemukan!");
-      return;
-    }
+  if (!userProfile) {
+    commentButton.addEventListener("click", () => {
+      notyf.error("Kamu harus login untuk menulis komentar!");
+    });
+    return;
+  }
+  const {userId} = userProfile;
+
+  commentButton.addEventListener("click", async (e) => {
+    e.preventDefault();
+
+    const comment = commentInput?.value.trim();
 
     if (!comment) {
       notyf.error("Komentar tidak boleh kosong!");
@@ -38,20 +38,20 @@ import loadComments from "../Comments.js";
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body: JSON.stringify({
           event_id: eventId,
-          users_id: userId,
-          content_comment: comment,
+          user_id: userId,
+          content: comment,
         }),
       });
 
-      const result = await response.json();
-
       if (response.ok) {
         notyf.success("Berhasil mengirim komentar");
-        loadComments();
         commentInput.value = "";
+        loadComments(); // Reload comments
+        loadReply(); // Reload replies after comment is added
       } else {
         notyf.error("Gagal mengirim komentar.");
       }
@@ -60,4 +60,6 @@ import loadComments from "../Comments.js";
       console.error("Error posting comment:", error);
     }
   });
-})();
+};
+
+export default AddCommentEvent;
