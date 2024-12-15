@@ -24,12 +24,15 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
         password,
       }),
     });
-    const result = await response.json();
+
+    const {data} = await response.json();
+    localStorage.setItem("token", data.refresh_token);
+
     if (response.ok) {
       notyf.success("Berhasil login!");
       setTimeout(() => {
-        window.location.href = "index";
-      }, 1000);
+        window.location.replace("index");
+      }, 500);
     } else {
       notyf.error("result.message");
     }

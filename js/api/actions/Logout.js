@@ -12,11 +12,17 @@ logoutButton?.addEventListener("click", async () => {
   try {
     const response = await fetch(`${API_BASE_URL}/auth`, {
       method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
     });
     const result = await response.json();
+    localStorage.removeItem("token");
+
     notyf.success(result.message);
+
     setTimeout(() => {
-      window.location.reload();
       window.location.href = "index";
     }, 1000);
   } catch (error) {
