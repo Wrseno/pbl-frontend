@@ -10,11 +10,11 @@ const eventsContainerMobile = document.getElementById(
 document.addEventListener("DOMContentLoaded", () => {
   const fetchEvents = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/events`);
+      const response = await fetch(`${API_BASE_URL}/available_events`);
       const {data} = await response.json();
 
       if (data.length === 0) {
-        eventsContainer.innerHTML = "<p>No events found.</p>";
+        eventsContainer.innerHTML = `<p class="text-lg font-semibold">No events found.</p>`;
         return;
       }
 
