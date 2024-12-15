@@ -1,8 +1,8 @@
-// List-Events.js
 import {API_BASE_URL} from "../config.js";
 import {LocationSvgIcon, CalendarSvgIcon} from "../components/svg.js";
 import {formattedDate} from "../utils.js";
 
+const categoriesContainer = document.getElementById("category-container");
 const upcomingEventsContainer = document.getElementById(
   "upcoming-events-container"
 );
@@ -21,18 +21,42 @@ const paginationContainer = document.getElementById("pagination-container");
 const EVENTS_PER_PAGE = 4;
 let currentPage = 1;
 let allEvents = [];
+let currentCategory = null;
 
-// Fetch all events and likes once and process data
 document.addEventListener("DOMContentLoaded", async () => {
   try {
-    const [eventsResponse, likesResponse] = await Promise.all([
-      fetch(`${API_BASE_URL}/events`),
-      fetch(`${API_BASE_URL}/likes?limit=5`),
-    ]);
+    const categoriesResponse = await fetch(`${API_BASE_URL}/categories`);
+    const {data: categories} = await categoriesResponse.json();
+
+    if (!categoriesResponse.ok) {
+      throw new Error(
+        `Failed to fetch categories: ${categoriesResponse.statusText}`
+      );
+    }
+
+    renderCategories(categories);
+
+    const eventsResponse = await fetch(`${API_BASE_URL}/available_events`);
+    const upcomingEventResponse = await fetch(
+      `${API_BASE_URL}/available_events?upcoming=true`
+    );
+    const likesResponse = await fetch(
+      `${API_BASE_URL}/available_events?most_likes=true`
+    );
 
     const {data: events} = await eventsResponse.json();
+    const {data: upcomingEvent} = await upcomingEventResponse.json();
     const {data: mostLikedEvents} = await likesResponse.json();
-    console.log(mostLikedEvents, events);
+
+    if (!eventsResponse.ok) {
+      throw new Error(`Failed to fetch events: ${eventsResponse.statusText}`);
+    }
+
+    if (!likesResponse.ok) {
+      throw new Error(
+        `Failed to fetch most liked events: ${likesResponse.statusText}`
+      );
+    }
 
     if (events.length === 0) {
       displayNoEventsMessage();
@@ -41,7 +65,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     allEvents = events;
     renderMostLikedEvents(mostLikedEvents.slice(0, 8));
-    renderUpcomingEvents(events.slice(0, 5));
+    renderUpcomingEvents(upcomingEvent.slice(0, 5));
     renderAllEvents();
   } catch (error) {
     console.error("Failed to fetch events:", error);
@@ -49,21 +73,73 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
-// Display a "no events" message in all relevant containers
 function displayNoEventsMessage() {
-  upcomingEventsContainer.innerHTML = "<p>No upcoming events found.</p>";
-  mostLikedEventsContainer.innerHTML = "<p>No recommended events found.</p>";
-  allEventsContainer.innerHTML = "<p>No events found.</p>";
+  allEventsContainer.innerHTML = "<p>Event tidak ditemukan.</p>";
 }
 
-// Display an error message in all relevant containers
 function displayErrorMessages() {
   upcomingEventsContainer.innerHTML = "<p>Error fetching events.</p>";
   mostLikedEventsContainer.innerHTML = "<p>Error fetching events.</p>";
   allEventsContainer.innerHTML = "<p>Error fetching events.</p>";
 }
 
-// Render Recommended Events
+function renderCategories(categories) {
+  let htmlContent = "";
+  categories.forEach((category) => {
+    htmlContent += `
+      <a href="#all-events" 
+         class="snap-center shrink-0 flex gap-1 items-center shadow-md p-2 h-10 rounded-xl transition-colors duration-200 hover:bg-blue-100 active:bg-blue-200 border border-blue-500 category-link"
+         data-category-name="${category.category_name}">
+        <div class="bg-gradient-to-r from-primary to-secondary text-white p-2 rounded-lg">
+          <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="bi bi-motherboard-fill" viewBox="0 0 16 16">
+            <path d="M5 7h3V4H5z" />
+            <path d="M1 2a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-2H.5a.5.5 0 0 1-.5-.5v-1A.5.5 0 0 1 .5 9H1V8H.5a.5.5 0 0 1-.5-.5v-1A.5.5 0 0 1 .5 6H1V5H.5a.5.5 0 0 1-.5-.5v-2A.5.5 0 0 1 .5 2zm11 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0zm2 0a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0zM3.5 10a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1zm0 2a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1zM4 4h-.5a.5.5 0 0 0 0 1H4v1h-.5a.5.5 0 0 0 0 1H4a1 1 0 0 0 1 1v.5a.5.5 0 0 0 1 0V8h1v.5a.5.5 0 0 0 1 0V8a1 1 0 0 0 1-1h.5a.5.5 0 0 0 0-1H9V5h.5a.5.5 0 0 0 0-1H9a1 1 0 0 0-1-1v-.5a.5.5 0 0 0-1 0V3H6v-.5a.5.5 0 0 0-1 0V3a1 1 0 0 0-1 1m7 7.5v1a.5.5 0 0 0 .5.5h2a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-2a.5.5 0 0 0-.5.5"/>
+          </svg>
+        </div>
+        <div>
+          <p>${category.category_name}</p>
+        </div>
+      </a>
+    `;
+  });
+  categoriesContainer.innerHTML = htmlContent;
+
+  document.querySelectorAll(".category-link").forEach((link) => {
+    link.addEventListener("click", (e) => {
+      const categoryName = e.target.closest("a").dataset.categoryName;
+      currentCategory = categoryName; // Set selected category
+      fetchEventsByCategory(categoryName); // Fetch events for the selected category
+      scrollTo("#all-events");
+    });
+  });
+}
+
+async function fetchEventsByCategory(categoryName) {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/available_events?category=${categoryName}`
+    );
+    const {data: events} = await response.json();
+
+    if (!response.ok) {
+      throw new Error(
+        `Failed to fetch events for category: ${response.statusText}`
+      );
+    }
+
+    if (events.length === 0) {
+      displayNoEventsMessage();
+      return;
+    }
+
+    allEvents = events;
+    renderAllEvents();
+  } catch (error) {
+    console.error("Failed to fetch events by category:", error);
+    displayErrorMessages();
+  }
+}
+
 function renderMostLikedEvents(events) {
   let htmlContent = "";
   events.forEach((event) => {
@@ -80,17 +156,17 @@ function renderMostLikedEvents(events) {
       event.location
     }</p></div>
               <div class="flex gap-2 items-center">${CalendarSvgIcon}<p class="text-sm">${formattedDate(
-      event.date_add
+      event.date_start
     )}</p></div>
             </div>
           </div>
         </a>
-      </swiper-slide>`;
+      </swiper-slide>
+    `;
   });
   mostLikedEventsContainer.innerHTML = htmlContent;
 }
 
-// Render Upcoming Events
 function renderUpcomingEvents(events) {
   let htmlContent = "";
   events.forEach((event) => {
@@ -107,19 +183,19 @@ function renderUpcomingEvents(events) {
       event.location
     }</p></div>
               <div class="flex gap-2 items-center">${CalendarSvgIcon}<p class="poppins-tight">${formattedDate(
-      event.date_add
+      event.date_start
     )}</p></div>
             </div>
           </div>
         </a>
-      </swiper-slide>`;
+      </swiper-slide>
+    `;
     htmlContent += eventHtml;
   });
   upcomingEventsContainer.innerHTML = htmlContent;
   upcomingEventsMobileContainer.innerHTML = htmlContent;
 }
 
-// Render All Events with pagination
 function renderAllEvents() {
   const startIndex = (currentPage - 1) * EVENTS_PER_PAGE;
   const paginatedEvents = allEvents.slice(
@@ -142,58 +218,147 @@ function renderAllEvents() {
       event.location
     }</p></div>
               <div class="flex gap-2 items-center">${CalendarSvgIcon}<p class="poppins-tight">${formattedDate(
-      event.date_add
+      event.date_start
     )}</p></div>
             </div>
           </div>
         </a>
-      </swiper-slide>`;
+      </swiper-slide>
+    `;
   });
+
   allEventsContainer.innerHTML = htmlContent;
   allEventsMobileContainer.innerHTML = htmlContent;
-
   updatePagination();
 }
 
-// Update pagination based on the current page
 function updatePagination() {
   const totalPages = Math.ceil(allEvents.length / EVENTS_PER_PAGE);
   paginationContainer.innerHTML = "";
 
+  const paginationList = document.createElement("ul");
+  paginationList.classList.add(
+    "flex",
+    "items-center",
+    "-space-x-px",
+    "h-8",
+    "text-sm"
+  );
+
+  const prevButton = document.createElement("li");
+  const prevLink = document.createElement("a");
+  prevLink.href = "#all-events";
+  prevLink.classList.add(
+    "flex",
+    "items-center",
+    "justify-center",
+    "px-3",
+    "h-8",
+    "ms-0",
+    "leading-tight",
+    "text-gray-500",
+    "bg-white",
+    "border",
+    "border-e-0",
+    "border-gray-300",
+    "rounded-s-lg",
+    "hover:bg-gray-100",
+    "hover:text-gray-700"
+  );
+  prevLink.innerHTML = `
+    <span class="sr-only">Previous</span>
+    <svg class="w-2.5 h-2.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
+    </svg>
+  `;
+  prevButton.appendChild(prevLink);
+  prevButton.addEventListener("click", () => {
+    if (currentPage > 1) {
+      currentPage--;
+      renderAllEvents();
+    }
+  });
+  paginationList.appendChild(prevButton);
+
   for (let i = 1; i <= totalPages; i++) {
+    const pageItem = document.createElement("li");
     const pageLink = document.createElement("a");
-    pageLink.href = "#all-events-container";
-    pageLink.textContent = i;
+    pageLink.href = "#all-events";
     pageLink.classList.add(
-      "relative",
-      "inline-flex",
+      "flex",
       "items-center",
-      "px-4",
-      "py-2",
-      "text-sm",
-      "font-semibold",
-      "text-white",
-      "ring-1",
-      "ring-inset",
-      "ring-gray-300",
-      "hover:bg-blue-50",
-      "focus:z-20"
+      "justify-center",
+      "px-3",
+      "h-8",
+      "leading-tight",
+      "text-gray-500",
+      "bg-white",
+      "border",
+      "border-gray-300",
+      "hover:bg-gray-100",
+      "hover:text-gray-700"
     );
+    pageLink.textContent = i;
 
     if (i === currentPage) {
       pageLink.classList.add(
         "z-10",
-        "bg-blue-600",
-        "hover:text-gray-900",
-        "focus-visible:outline-blue-600"
+        "flex",
+        "items-center",
+        "justify-center",
+        "px-3",
+        "h-8",
+        "leading-tight",
+        "text-blue-600",
+        "border",
+        "border-blue-300",
+        "bg-blue-50",
+        "hover:bg-blue-100",
+        "hover:text-blue-700"
       );
     }
 
+    pageItem.appendChild(pageLink);
     pageLink.addEventListener("click", () => {
       currentPage = i;
       renderAllEvents();
     });
 
-    paginationContainer.appendChild(pageLink);
+    paginationList.appendChild(pageItem);
   }
+
+  const nextButton = document.createElement("li");
+  const nextLink = document.createElement("a");
+  nextLink.href = "#all-events";
+  nextLink.classList.add(
+    "flex",
+    "items-center",
+    "justify-center",
+    "px-3",
+    "h-8",
+    "leading-tight",
+    "text-gray-500",
+    "bg-white",
+    "border",
+    "border-gray-300",
+    "rounded-e-lg",
+    "hover:bg-gray-100",
+    "hover:text-gray-700"
+  );
+  nextLink.innerHTML = `
+    <span class="sr-only">Next</span>
+    <svg class="w-2.5 h-2.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+    </svg>
+  `;
+  nextButton.appendChild(nextLink);
+  nextButton.addEventListener("click", () => {
+    if (currentPage < totalPages) {
+      currentPage++;
+      renderAllEvents();
+    }
+  });
+  paginationList.appendChild(nextButton);
+
+  paginationContainer.appendChild(paginationList);
 }
