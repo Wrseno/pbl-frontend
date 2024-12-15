@@ -1,94 +1,130 @@
 import {API_BASE_URL} from "../config.js";
 import {timeAgo} from "../utils.js";
 
-const loadReply = async () => {
-  const buttonShowReply = document.querySelectorAll(".btn-show-reply");
+// Fungsi untuk menangani tampilan balasan
+const toggleReplies = async (button) => {
+  const commentId = button
+    .closest(".grid")
+    .querySelector("[data-comment-id]")
+    .getAttribute("data-comment-id");
 
-  buttonShowReply.forEach((button) => {
-    button.addEventListener("click", async function () {
-      const userId = this.closest(".grid")
-        .querySelector("[data-user-id]")
-        .getAttribute("data-user-id");
+  let replyContainer = document.getElementById(`replies-${commentId}`);
+  if (!replyContainer) {
+    replyContainer = document.createElement("div");
+    replyContainer.id = `replies-${commentId}`;
+    button.closest(".grid").appendChild(replyContainer);
+  }
 
-      const commentId = this.closest(".grid")
-        .querySelector("[data-comment-id]")
-        .getAttribute("data-comment-id");
+  if (replyContainer.innerHTML) {
+    // Jika sudah ada balasan, sembunyikan dengan mengosongkan konten
+    replyContainer.innerHTML = "";
+  } else {
+    // Jika belum ada balasan, panggil API untuk memuat balasan
+    await loadRepliesForComment(commentId, replyContainer);
+  }
+};
 
-      const usernameParentComment = this.closest(".grid")
-        .querySelector("[data-username]")
-        .getAttribute("data-username");
+// Fungsi untuk mengambil balasan dari API
+export const loadRepliesForComment = async (commentId, replyContainer) => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/comments?comment_parent_id=${commentId}`
+    );
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
 
-      let replyContainer = document.getElementById(`replies-${commentId}`);
-      if (!replyContainer) {
-        replyContainer = document.createElement("div");
-        replyContainer.id = `replies-${commentId}`;
-        this.closest(".grid").appendChild(replyContainer);
+    const {data} = await response.json();
+    replyContainer.innerHTML = "";
+
+    if (data && data.length > 0) {
+      // Memuat balasan dengan rekursif
+      for (const dt of data) {
+        replyContainer.innerHTML += await createCommentMarkup(dt, dt.username);
       }
+    } else {
+      replyContainer.innerHTML =
+        "<p class='text-sm ml-6'>Tidak ada balasan.</p>";
+    }
+  } catch (error) {
+    replyContainer.innerHTML = "<p class='text-sm ml-6'>Tidak ada balasan.</p>";
+  }
+};
 
-      if (replyContainer.innerHTML) {
-        replyContainer.innerHTML = ""; // Sembunyikan balasan dengan mengosongkan konten
-      } else {
-        try {
-          const response = await fetch(
-            `${API_BASE_URL}/replies?users_id=${userId}&comment_id=${commentId}`
-          );
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
-          const {data} = await response.json();
-
-          replyContainer.innerHTML = ""; // Kosongkan kontainer sebelum menampilkan konten baru
-
-          if (data && data.length > 0) {
-            data.forEach((dt) => {
-              if (
-                replyContainer.getAttribute("id") === `replies-${dt.comment_id}`
-              ) {
-                replyContainer.innerHTML += `
-                  <div class="grid">
-                    <div class="flex gap-2 items-center p-2">
-                      <img
-                        src="img/Logo Polivent.png"
-                        alt="Profil"
-                        class="w-[50px] rounded-full"
-                      />
-                      <div class="text-gray-900 text-sm">
-                        <p class="font-semibold flex gap-4 items-center">${
-                          dt.username
-                        } 
-                        <span class="text-gray-500 font-normal">${timeAgo(
-                          dt.created_at
-                        )}</span></p>
-                        <p><span class="text-tertiary font-medium" data-tag-user-id="${
-                          dt.replay_id
-                        }">@${usernameParentComment}</span> ${
-                  dt.content_replay
-                }</p>
-                        <button
-                        class="btn-reply-tag-user flex items-center gap-2 justify-start px-4 text-sm text-center text-tertiary font-semibold hover:bg-gray-200 p-2 rounded-full"
-                      >
-                        Balas
-                      </button>
-                      </div>
-                    </div>
-                    <div id="tag-user-input-${dt.replay_id}"></div>
-                    <div id="tag-user-${dt.replay_id}" class="ml-12"></div>
-                  </div>
-                `;
-              }
-            });
-          } else {
-            replyContainer.innerHTML =
-              "<p class='text-sm ml-6'>Tidak ada balasan.</p>";
-          }
-        } catch (error) {
-          replyContainer.innerHTML =
-            "<p class='text-sm ml-6'>Tidak ada balasan.</p>";
-          console.error("Error loading comments:", error);
-        }
-      }
-    });
+const loadReply = () => {
+  document.addEventListener("click", (event) => {
+    const button = event.target.closest(".btn-show-reply");
+    if (button) {
+      toggleReplies(button); // Panggil toggleReplies ketika tombol diklik
+    }
   });
+};
+
+export const createCommentMarkup = async (comment, usernameParentComment) => {
+  const {
+    username,
+    created_at,
+    content,
+    comment_parent_id,
+    comment_id,
+    avatar,
+    user_id,
+  } = comment;
+
+  let replyMarkup = `
+    <div class="grid ml-${comment_parent_id ? 12 : 0}">
+      <div class="flex gap-2 items-center p-2">
+        <img
+          src="${avatar}"
+          alt="Profil"
+          class="w-[50px] h-[50px] object-cover rounded-full"
+        />
+        <div class="text-gray-900 text-sm">
+          <p class="font-semibold flex gap-4 items-center" data-username="${username}">
+            ${username} 
+            <span class="text-gray-500 font-normal">${timeAgo(
+              created_at
+            )}</span>
+          </p>
+          <p><span class="text-tertiary font-medium" data-user-id="${user_id}" data-comment-id="${comment_id}">@${usernameParentComment}</span> ${content}</p>
+          <button
+            class="btn-reply flex items-center gap-2 justify-start px-4 text-sm text-center text-tertiary font-semibold hover:bg-gray-200 p-2 rounded-full"
+          >
+            Balas
+          </button>
+        </div>
+      </div>
+      <div id="replies-input-${user_id}"></div>
+      <div id="replies-${comment_parent_id}" class="ml-12"></div>
+    </div>
+  `;
+
+  const nestedReplies = await fetchNestedReplies(comment_id);
+  if (nestedReplies && nestedReplies.length > 0) {
+    for (const nestedComment of nestedReplies) {
+      replyMarkup += await createCommentMarkup(nestedComment, username);
+    }
+  }
+
+  return replyMarkup;
+};
+
+// Fungsi untuk mengambil balasan berlapis dari API
+const fetchNestedReplies = async (parentId) => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/comments?comment_parent_id=${parentId}`
+    );
+
+    if (!response.ok) {
+      return [];
+    }
+
+    const {data} = await response.json();
+    return data || [];
+  } catch (error) {
+    return [];
+  }
 };
 
 export default loadReply;
