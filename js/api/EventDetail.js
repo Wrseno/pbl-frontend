@@ -9,11 +9,13 @@ import {
   CalendarSvgIcon,
   ClockSvgIcon,
   LikesSvgIcon,
+  ticketSvgIcon,
 } from "../components/svg.js";
 import {formattedDate, formattedHour, getQueryParam} from "../utils.js";
 import addReplyComment from "./actions/AddReplyComment.js";
 import {hideSkeleton, showSkeleton} from "../components/skeleton.js";
 import addReplyTagUserComment from "./actions/AddReplyTagUserComment.js";
+import AddCommentEvent from "./actions/AddCommentEvent.js";
 
 const eventDetailContainer = document.getElementById("event-detail-container");
 const currentPage = document.getElementById("current-page");
@@ -21,7 +23,9 @@ const eventId = getQueryParam("id");
 
 const getEventById = async (eventId) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/events/${eventId}`);
+    const response = await fetch(
+      `${API_BASE_URL}/available_events?event_id=${eventId}`
+    );
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
     const {data} = await response.json();
@@ -49,7 +53,7 @@ const getEventById = async (eventId) => {
               <div>
                 <p class="font-semibold">Deskripsi</p>
                 <p>
-                  ${data.desc_event}
+                  ${data.description}
                 </p>
               </div>
             </div>
@@ -111,7 +115,7 @@ const getEventById = async (eventId) => {
           </div>
         </div>
         <div
-          class="flex flex-wrap justify-center md:grid md:grid-cols-5 gap-4 items-center border-t border-b my-6 p-4"
+          class="flex flex-wrap justify-center md:grid md:grid-cols-6 gap-4 items-center border-t border-b my-6 p-4"
         >
           <div class="border-r">
             <div class="flex items-center gap-2 justify-center text-gray-500">
@@ -138,6 +142,13 @@ const getEventById = async (eventId) => {
               data.date_start
             )}</p>
           </div>
+          <div class="border-r">
+            <div class="flex items-center gap-2 justify-center text-gray-500">
+              ${ticketSvgIcon}
+              <p class="font-medium">Kuota</p>
+            </div>
+            <p class="text-center text-gray-500">${data.quota} tersisa</p>
+          </div>
           <div
             class="w-full col-span-2 mx-auto justify-center"
             id="join-button-container"
@@ -162,9 +173,10 @@ const initializePage = async () => {
     await initializeJoinButton();
     await loadComments();
     await loadDateEnd();
+    await AddCommentEvent();
     await addReplyComment();
-    await loadReply();
-    await addReplyTagUserComment();
+    loadReply();
+    // await addReplyTagUserComment();
     hideSkeleton();
   } else {
     eventDetailContainer.innerHTML = "<p>Event id dibutuhkan.</p>";
