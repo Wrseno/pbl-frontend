@@ -1,17 +1,19 @@
 import {API_BASE_URL} from "../../config.js";
-import {getQueryParam, getSession} from "../../utils.js";
+import {getisLoggedIn, getQueryParam} from "../../utils.js";
 
 const initializeLikeButton = async () => {
   const eventId = getQueryParam("id");
-  const session = await getSession();
+  const isLoggedIn = await getisLoggedIn();
   const likeButton = document.getElementById("like-button");
 
-  if (!session) {
-    console.error("User session not found");
+  if (!isLoggedIn) {
+    likeButton.addEventListener("click", () => {
+      notyf.error("Kamu harus login untuk menyukai event!");
+    });
     return;
   }
 
-  const userId = session.data.users_id;
+  const userId = isLoggedIn.user_id;
 
   if (!likeButton) {
     console.error("Like button not found");
@@ -20,7 +22,7 @@ const initializeLikeButton = async () => {
 
   try {
     const checkResponse = await fetch(
-      `${API_BASE_URL}/likes?event_id=${eventId}&users_id=${userId}`
+      `${API_BASE_URL}/likes?event_id=${eventId}&user_id=${userId}`
     );
 
     const response = await checkResponse.json();
@@ -58,7 +60,7 @@ const initializeLikeButton = async () => {
                 "Content-Type": "application/json",
               },
               body: JSON.stringify({
-                users_id: userId,
+                user_id: userId,
                 event_id: eventId,
               }),
             });
