@@ -1,4 +1,4 @@
-<section id="download">
+<section id="download" class="px-4 md:px-16">
   <div class="mb-12">
     <h2 class="text-3xl poppins-bold text-center text-gradient">
       Download Aplikasi
@@ -11,7 +11,7 @@
     <div
       class="-z-10 absolute w-[150px] h-[150px] md:w-[200px] md:h-[200px] rounded-full blur-[100px] bottom-0 -left-10 bg-gradient-to-r from-blue-300 via-primary to-blue-300"
     ></div>
-    <div class="grid justify-between">
+    <div class="grid justify-between mx-auto">
       <div>
         <p class="poppins-regular">Lebih nyaman menggunakan Smartphone?</p>
         <h2 class="text-xl poppins-semibold mb-4">Download Aplikasinya!</h2>
@@ -45,7 +45,7 @@
       <img
         src="img/mockup-hp.png"
         alt="Mockup Aplikasi"
-        class="w-full drop-shadow-wh"
+        class="w-full md:w-1/2 lg:w-full mx-auto drop-shadow-wh"
       />
     </div>
     <div class="grid lg:justify-end">

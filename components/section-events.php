@@ -1,7 +1,7 @@
 <section id="events" class="relative grid justify-center">
   <div class="text-center mb-12">
     <h4 class="text-xl poppins-bold">Akan Datang</h4>
-    <h2 class="text-3xl poppins-bold text-gradient">Event Besar</h2>
+    <h2 class="text-3xl poppins-bold text-gradient">Event Terbaru</h2>
     <p class="poppins-regular">
       Cari semua event menarik sesuai dengan minatmu.
     </p>

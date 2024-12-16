@@ -1,10 +1,10 @@
 <section id="hero" class="relative px-2 sm:px-0">
   <div class="grid items-center min-h-screen text-center">
     <div
-      class="grid gap-y-2 items-center absolute lg:top-1/2 lg:left-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2"
+      class="grid gap-y-2 items-center lg:absolute lg:top-1/2 lg:left-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2"
     >
       <p class="poppins-semibold text-lg sm:text-2xl">
-        <span class="text-gradient">Weekend</span> free?
+        <span class="text-gradient">Banyak waktu</span> luang?
       </p>
       <h2 class="poppins-bold text-2xl sm:text-4xl">
         Mending
