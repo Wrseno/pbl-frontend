@@ -1,7 +1,3 @@
-<?php
-session_start();
-?>
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -17,6 +13,10 @@ session_start();
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="./style.css" />
     <script src="./tailwind.config.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css"
+      rel="stylesheet"
+    />
     <style type="text/tailwindcss">
       .text-gradient {
         @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-300 via-primary to-blue-300;
@@ -26,6 +26,10 @@ session_start();
         .paused {
           animation-play-state: paused;
         }
+      }
+
+      div {
+        scroll-margin-top: 200px;
       }
     </style>
   </head>
@@ -40,7 +44,7 @@ session_start();
           id="category-container"
         ></div>
         <div class="flex justify-between items-center w-full">
-          <div class="flex gap-2 items-center">
+          <!-- <div class="flex gap-2 items-center">
             <button class="flex bg-gray-100 my-2 px-2 rounded-lg items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -56,7 +60,7 @@ session_start();
               </svg>
               <p class="p-2">Filter</p>
             </button>
-          </div>
+          </div> -->
         </div>
       </div>
 
@@ -126,7 +130,7 @@ session_start();
       </div>
 
       <!-- All Events Section -->
-      <div class="container mx-auto">
+      <div class="container mx-auto" id="all-events">
         <h2 class="text-2xl font-bold mb-4">Semua Event</h2>
         <div class="md:hidden">
           <swiper-container
@@ -224,7 +228,8 @@ session_start();
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
     <script src="./js/api/ListAllEvents.js" type="module"></script>
-    <script src="./js/api/Categories.js" type="module"></script>
+    <script src="./js/api/GetUserLogin.js" type="module"></script>
+    <script src="js/api/actions/UpdateProfileUser.js" type="module"></script>
     <script src="./js/api/actions/Logout.js" type="module"></script>
   </body>
 </html>

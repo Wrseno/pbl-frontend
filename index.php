@@ -1,7 +1,3 @@
-<?php
-session_start();
-?>
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -13,6 +9,10 @@ session_start();
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css" />
     <script src="tailwind.config.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css"
+      rel="stylesheet"
+    />
     <style type="text/tailwindcss">
       .text-gradient {
         @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-300 via-primary to-blue-300;
@@ -29,11 +29,11 @@ session_start();
     <?php include_once './components/header.php' ?>
 
     <main class="container mx-auto max-w-screen-2xl">
-      <div class="grid gap-y-60 px-2 sm:px-12">
+      <div class="grid gap-y-60 px-2">
         <?php include_once './components/section-hero.php'?>
         <?php include_once './components/section-events.php'?>
         <?php include_once './components/section-download.php'?>
-        <?php include_once './components/section-category.php'?>
+        <?php //include_once './components/section-category.php'?>
         <?php include_once './components/section-about.php'?>
       </div>
     </main>
@@ -54,7 +54,8 @@ session_start();
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
     <script src="js/api/Events.js" type="module"></script>
     <script src="js/api/actions/Logout.js" type="module"></script>
-    <!-- <script src="js/api/Categories.js" type="module"></script> -->
+    <script src="js/api/getUserLogin.js" type="module"></script>
+    <script src="js/api/actions/UpdateProfileUser.js" type="module"></script>
     <script src="js/app.js" type="module"></script>
   </body>
 </html>

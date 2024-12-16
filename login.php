@@ -1,9 +1,6 @@
-<?php
-session_start();
-if (isset($_SESSION["users_id"])) {
-  header("Location: index");
-}
-?>
+<script>
+  localStorage.getItem("token") && window.location.replace("index");
+</script>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -108,7 +105,10 @@ if (isset($_SESSION["users_id"])) {
        -->
       <div class="px-4 md:px-12 mx-auto w-full">
         <div class="grid md:grid-cols-2 md:gap-8 w-full">
-          <div id="login-image" class="grid items-center justify-center text-center">
+          <div
+            id="login-image"
+            class="grid items-center justify-center text-center"
+          >
             <img
               src="img/Logo Polines 1.png"
               alt="Logo Polivent"

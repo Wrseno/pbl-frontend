@@ -1,7 +1,3 @@
-<?php
-session_start();
-?>
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -128,9 +124,9 @@ session_start();
     </script>
     <script src="js/api/EventDetail.js" type="module"></script>
     <script src="js/api/actions/JoinEvent.js" type="module"></script>
+    <script src="js/api/Comments.js" type="module"></script>
     <script src="js/api/actions/AddCommentEvent.js" type="module"></script>
     <script src="js/api/actions/AddLikesEvent.js" type="module"></script>
     <script src="js/api/actions/AddReplyComment.js" type="module"></script>
-    <script src="js/api/Comments.js" type="module"></script>
   </body>
 </html>
