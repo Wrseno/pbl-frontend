@@ -5,18 +5,42 @@ function getQueryParam(param) {
   return urlParams.get(param);
 }
 
-async function getSession() {
-  try {
-    const response = await fetch(`${API_BASE_URL}/session`, {
-      method: "GET",
-      credentials: "include",
-    });
-    if (!response.ok)
-      throw new Error("Session not found or user not logged in");
-    return await response.json();
-  } catch (error) {
+async function getisLoggedIn() {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
     return null;
   }
+
+  try {
+    const response = await fetch(`${API_BASE_URL}/auth`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Tidak dapat memverifikasi status login");
+    }
+
+    const {data} = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error dalam memverifikasi status login:", error);
+    return null;
+  }
+}
+
+async function getProfileUser() {
+  const user = await getisLoggedIn();
+
+  if (!user) {
+    return null;
+  }
+
+  const {avatar, username, user_id: userId, about, roles} = user;
+  return {avatar, username, userId, about, roles};
 }
 
 function formattedDate(date) {
@@ -63,4 +87,11 @@ function timeAgo(timestamp) {
   }
 }
 
-export {getQueryParam, getSession, formattedDate, formattedHour, timeAgo};
+export {
+  getQueryParam,
+  formattedDate,
+  formattedHour,
+  timeAgo,
+  getisLoggedIn,
+  getProfileUser,
+};
