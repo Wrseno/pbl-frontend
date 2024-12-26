@@ -14,7 +14,6 @@ import {
 import {formattedDate, formattedHour, getQueryParam} from "../utils.js";
 import addReplyComment from "./actions/AddReplyComment.js";
 import {hideSkeleton, showSkeleton} from "../components/skeleton.js";
-import addReplyTagUserComment from "./actions/AddReplyTagUserComment.js";
 import AddCommentEvent from "./actions/AddCommentEvent.js";
 
 const eventDetailContainer = document.getElementById("event-detail-container");
@@ -176,7 +175,6 @@ const initializePage = async () => {
     await AddCommentEvent();
     await addReplyComment();
     loadReply();
-    // await addReplyTagUserComment();
     hideSkeleton();
   } else {
     eventDetailContainer.innerHTML = "<p>Event id dibutuhkan.</p>";

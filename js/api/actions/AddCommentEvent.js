@@ -7,6 +7,8 @@ const AddCommentEvent = async () => {
   const commentInput = document.getElementById("input-comment");
   const commentButton = document.getElementById("btn-comment");
 
+  if (!commentButton) console.log("Button komentar tidak ditemukan!");
+
   const eventId = getQueryParam("id");
   const userProfile = await getProfileUser();
 

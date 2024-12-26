@@ -41,7 +41,7 @@ const loadComments = async () => {
                       class="w-[50px] h-[50px] rounded-full object-cover"
                     />
                     <div class="text-gray-900 text-sm">
-                      <p class="font-semibold flex gap-4" data-username="${
+                      <p class="font-semibold flex gap-4" data-parent-username="${
                         dt.username
                       }">
                         ${dt.username}
@@ -49,9 +49,9 @@ const loadComments = async () => {
                           dt.created_at
                         )}</span>
                       </p>
-                      <p class="dataId" data-user-id="${
+                      <p class="dataId" data-parent-user-id="${
                         dt.user_id
-                      }" data-comment-id="${dt.comment_id}">
+                      }" data-parent-comment-id="${dt.comment_id}">
                         ${dt.content}
                       </p>
                       <button class="btn-reply flex items-center gap-2 justify-start px-4 text-sm text-center text-tertiary font-semibold hover:bg-gray-200 p-2 rounded-full">
