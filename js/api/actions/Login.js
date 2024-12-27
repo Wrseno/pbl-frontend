@@ -1,5 +1,5 @@
 import {API_BASE_URL} from "../../config.js";
-let notyf = new Notyf({
+const notyf = new Notyf({
   duration: 1000,
   position: {
     x: "right",
@@ -26,15 +26,15 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
     });
 
     const {data} = await response.json();
-    localStorage.setItem("token", data.refresh_token);
 
     if (response.ok) {
       notyf.success("Berhasil login!");
+      localStorage.setItem("token", data.access_token);
       setTimeout(() => {
         window.location.replace("index");
       }, 500);
     } else {
-      notyf.error("result.message");
+      notyf.error("Gagal login!");
     }
   } catch (error) {
     console.error("Error : ", error);

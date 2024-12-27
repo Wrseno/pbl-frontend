@@ -12,10 +12,20 @@ const usernameText = document.getElementById("username-dashboard");
 
   try {
     const eventJoinedResponse = await fetch(
-      `${API_BASE_URL}/registration?user_id=${userId}&not_present=true`
+      `${API_BASE_URL}/registration?user_id=${userId}&not_present=true`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
     );
     const eventHasPresentResponse = await fetch(
-      `${API_BASE_URL}/registration?user_id=${userId}&has_present=true`
+      `${API_BASE_URL}/registration?user_id=${userId}&has_present=true`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
     );
 
     const {data: eventJoined} = await eventJoinedResponse.json();

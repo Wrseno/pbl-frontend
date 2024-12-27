@@ -20,7 +20,7 @@ logoutButton?.addEventListener("click", async () => {
     const result = await response.json();
     localStorage.removeItem("token");
 
-    notyf.success(result.message);
+    notyf.success("Berhasil logout");
 
     setTimeout(() => {
       window.location.href = "index";

@@ -5,22 +5,18 @@ let parentUsername;
 let nestedUsername;
 let parentCommentId;
 
-// Fungsi untuk menangani tampilan balasan
 const toggleReplies = async (button) => {
-  // Mengambil elemen yang mengandung data-comment-id dan data-username
   const parentCommentElement = button
     .closest(".grid")
     .querySelector("[data-parent-comment-id]");
   const parentUsernameElement = button
     .closest(".grid")
     .querySelector("[data-parent-username]");
-  // Pastikan elemen-elemen tersebut ada sebelum mencoba mengakses atributnya
   if (parentCommentElement && parentUsernameElement) {
     parentCommentId = parseInt(
       parentCommentElement.getAttribute("data-parent-comment-id")
     );
     parentUsername = parentUsernameElement.getAttribute("data-parent-username");
-    // nestedUsername = nestedUsernameElement.getAttribute("data-username");
 
     let replyContainer = document.getElementById(`replies-${parentCommentId}`);
     if (!replyContainer) {
@@ -30,10 +26,8 @@ const toggleReplies = async (button) => {
     }
 
     if (replyContainer.innerHTML) {
-      // Jika sudah ada balasan, sembunyikan dengan mengosongkan konten
       replyContainer.innerHTML = "";
     } else {
-      // Jika belum ada balasan, panggil API untuk memuat balasan
       await loadRepliesForComment(parentCommentId, replyContainer);
     }
   } else {
@@ -41,7 +35,6 @@ const toggleReplies = async (button) => {
   }
 };
 
-// Fungsi untuk mengambil balasan dari API
 export const loadRepliesForComment = async (
   parentCommentId,
   replyContainer
@@ -83,22 +76,17 @@ const createCommentMarkup = async (comment, parentUsername) => {
     user_id,
   } = comment;
 
-  // Konversi ke tipe integer sebelum dibandingkan
   const parentId = parseInt(parentCommentId);
   const currentParentId = parseInt(comment_parent_id);
 
-  // Tentukan username yang ditampilkan
   let displayedUsername;
 
-  // Jika komentar ini membalas komentar utama
   if (currentParentId === parentId) {
-    displayedUsername = parentUsername || username; // Jika belum ada parentUsername, gunakan username
+    displayedUsername = parentUsername; // Jika belum ada parentUsername, gunakan username
   } else {
-    // Jika komentar ini membalas komentar lain, gunakan username yang dibalas
     displayedUsername = username;
   }
 
-  // Menampilkan markup untuk komentar
   let replyMarkup = `
     <div class="grid ml-${comment_parent_id ? 12 : 0}">
       <div class="flex gap-2 items-center p-2">
@@ -114,7 +102,7 @@ const createCommentMarkup = async (comment, parentUsername) => {
               created_at
             )}</span>
           </p>
-          <p><span class="text-tertiary font-medium" data-user-id="${user_id}" data-comment-id="${comment_id}" data-parent-comment-id="${comment_parent_id}">@${displayedUsername}</span> ${content}</p>
+          <p><span class="text-tertiary font-medium" data-user-id="${user_id}" data-comment-id="${comment_id}" data-parent-comment-id="${comment_parent_id}"></span> ${content}</p>
           <button
             class="btn-reply flex items-center gap-2 justify-start px-4 text-sm text-center text-tertiary font-semibold hover:bg-gray-200 p-2 rounded-full"
           >
@@ -127,18 +115,16 @@ const createCommentMarkup = async (comment, parentUsername) => {
     </div>
   `;
 
-  // Memuat balasan komentar secara rekursif jika ada
   const nestedReplies = await fetchNestedReplies(comment_id);
   if (nestedReplies && nestedReplies.length > 0) {
     for (const nestedComment of nestedReplies) {
-      replyMarkup += await createCommentMarkup(nestedComment, username); // Pass username as parentUsername
+      replyMarkup += await createCommentMarkup(nestedComment, username);
     }
   }
 
   return replyMarkup;
 };
 
-// Fungsi untuk mengambil balasan berlapis dari API
 const fetchNestedReplies = async (parentId) => {
   try {
     const response = await fetch(
@@ -156,12 +142,11 @@ const fetchNestedReplies = async (parentId) => {
   }
 };
 
-// Fungsi untuk menginisialisasi event listener klik balasan
 const loadReply = () => {
   document.addEventListener("click", (event) => {
     const button = event.target.closest(".btn-show-reply");
     if (button) {
-      toggleReplies(button); // Panggil toggleReplies ketika tombol diklik
+      toggleReplies(button);
     }
   });
 };

@@ -13,14 +13,18 @@ document.addEventListener("DOMContentLoaded", () => {
   // Fungsi untuk mengambil events
   const fetchEvents = async (search = "") => {
     const {userId} = await getProfileUser();
-    let url = `${API_BASE_URL}/registration?upcoming=true&user_id=${userId}&not_present=true`; // Ambil semua data
+    let url = `${API_BASE_URL}/registration?upcoming=true&user_id=${userId}&not_present=true`;
 
     if (search) {
       url = `${API_BASE_URL}/registration?search=${search}&upcoming=true&user_id=${userId}`;
     }
 
     try {
-      const response = await fetch(url);
+      const response = await fetch(url, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
       const {data} = await response.json();
 
       if (!data || data.length === 0) {

@@ -3,7 +3,7 @@ import {getProfileUser, getQueryParam} from "../../utils.js";
 import loadReply, {loadRepliesForComment} from "../ReplyComment.js";
 
 // Fungsi untuk menangani klik pada tombol balasan dengan delegasi event
-const addReplyComment = async () => {
+const addReplyComment = () => {
   window.addEventListener("click", async (e) => {
     if (e.target && e.target.classList.contains("btn-reply")) {
       const buttonReply = document.querySelectorAll(".btn-reply");
@@ -73,7 +73,7 @@ const addReplyComment = async () => {
               if (!replyComment) return;
               if (!userProfile) return;
               const {userId} = userProfile;
-              let replyContainer = document.getElementById(
+              const replyContainer = document.getElementById(
                 `replies-${commentId}`
               );
 

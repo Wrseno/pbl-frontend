@@ -2,7 +2,7 @@
   const token = localStorage.getItem("token");
 
   if (token) {
-    document.cookie = `token=${token}; path=/; max-age=3600`; // Set cookie untuk 1 jam
+    document.cookie = `access_token=${token}; path=/; max-age=3600`; // Set cookie untuk 1 jam
   }
 </script>
 
@@ -51,7 +51,7 @@
       </ul>
     </div>
     <div class="flex items-center gap-6">
-      <?php if (!isset($_COOKIE["refresh_token"])) { ?>
+      <?php if (!isset($_COOKIE["access_token"])) { ?>
       <a
         href="login"
         id="login-button"
