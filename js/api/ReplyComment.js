@@ -82,7 +82,7 @@ const createCommentMarkup = async (comment, parentUsername) => {
   let displayedUsername;
 
   if (currentParentId === parentId) {
-    displayedUsername = parentUsername; // Jika belum ada parentUsername, gunakan username
+    displayedUsername = parentUsername;
   } else {
     displayedUsername = username;
   }
@@ -96,13 +96,13 @@ const createCommentMarkup = async (comment, parentUsername) => {
           class="w-[50px] h-[50px] object-cover rounded-full"
         />
         <div class="text-gray-900 text-sm">
-          <p class="font-semibold flex gap-4 items-center" data-username="${username}">
+          <p class="font-semibold flex gap-4 items-center" data-parent-username="${username}">
             ${username} 
             <span class="text-gray-500 font-normal">${timeAgo(
               created_at
             )}</span>
           </p>
-          <p><span class="text-tertiary font-medium" data-user-id="${user_id}" data-comment-id="${comment_id}" data-parent-comment-id="${comment_parent_id}"></span> ${content}</p>
+          <p><span class="text-tertiary font-medium" data-parent-user-id="${user_id}" data-parent-comment-id="${comment_id}" data-parent-comment-id="${comment_parent_id}"></span> ${content}</p>
           <button
             class="btn-reply flex items-center gap-2 justify-start px-4 text-sm text-center text-tertiary font-semibold hover:bg-gray-200 p-2 rounded-full"
           >

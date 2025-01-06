@@ -1,20 +1,21 @@
 import {API_BASE_URL} from "../config.js";
-import {formattedDate, getProfileUser} from "../utils.js";
+import {formattedDate} from "../utils.js";
 
 const tableBody = document.getElementById("table-body");
-const inputSearch = document.getElementById("input-search");
 const paginationContainer = document.getElementById("pagination-container");
+const inputSearch = document.getElementById("search-input"); // Pastikan id ini ada di HTML
+const EVENTS_PER_PAGE = 5; // Jumlah event per halaman
 const datePickerRangeStart = document.getElementById("datepicker-range-start");
 const datePickerRangeEnd = document.getElementById("datepicker-range-end");
 
 let currentPage = 1;
-let eventsData = [];
-const EVENTS_PER_PAGE = 5; // Tentukan jumlah event per halaman
+let eventsData = []; // Menyimpan semua data event
+let filteredEvents = []; // Menyimpan data yang difilter berdasarkan pencarian
 
 document.addEventListener("DOMContentLoaded", () => {
+  // Fungsi untuk mengambil event dari API
   const fetchEvents = async (search = "", filterDate = "") => {
-    const {userId} = await getProfileUser();
-    let url = `${API_BASE_URL}/registration?upcoming=true&user_id=${userId}&not_present=true`;
+    let url = `${API_BASE_URL}/available_events?liked=true`;
 
     if (filterDate) {
       url += `&${filterDate}`;
@@ -29,6 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
         },
       });
       const {data} = await response.json();
+      console.log(data);
 
       if (!data || data.length === 0) {
         tableBody.innerHTML = `<p class="font-semibold p-8 text-center">Tidak ada event yang diikuti.</p>`;
@@ -37,29 +39,29 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       eventsData = data;
-
+      filteredEvents = data; // Simpan data yang sudah difilter
       renderPage(currentPage);
+      renderPagination();
     } catch (error) {
       console.error("Error fetching events:", error);
       tableBody.innerHTML = "<p>Error fetching events.</p>";
     }
   };
 
+  // Fungsi untuk merender halaman tertentu
   const renderPage = (page) => {
     const start = (page - 1) * EVENTS_PER_PAGE;
     const end = start + EVENTS_PER_PAGE;
+    const pageData = filteredEvents.slice(start, end);
 
-    const pageData = eventsData.slice(start, end);
-
-    tableBody.innerHTML = "";
+    tableBody.innerHTML = ""; // Bersihkan tabel sebelum merender data baru
 
     pageData.forEach((event) => {
       tableBody.innerHTML += `
         <tr class="bg-white border-b hover:bg-gray-50">
           <td class="w-4 p-4">
             <div class="flex items-center">
-              <input id="checkbox-table-search-1" type="checkbox" 
-                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
+              <input id="checkbox-table-search-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
               <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
             </div>
           </td>
@@ -68,7 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
           </th>
           <td class="px-6 py-4">
             ${event.category_name}
-          </td> 
+          </td>
           <td class="px-6 py-4">
             ${event.place}
           </td>
@@ -86,14 +88,14 @@ document.addEventListener("DOMContentLoaded", () => {
               event.event_id
             }" class="font-medium text-blue-600 hover:underline">Detail</a>
           </td>
-        </tr>`;
+        </tr>
+      `;
     });
-
-    renderPagination();
   };
 
+  // Fungsi untuk merender pagination
   const renderPagination = () => {
-    const totalPages = Math.ceil(eventsData.length / EVENTS_PER_PAGE);
+    const totalPages = Math.ceil(filteredEvents.length / EVENTS_PER_PAGE);
     paginationContainer.innerHTML = ""; // Bersihkan kontainer pagination
 
     const paginationList = document.createElement("ul");
@@ -105,6 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
       "text-sm"
     );
 
+    // Tombol "Previous"
     const prevButton = document.createElement("li");
     const prevLink = document.createElement("a");
     prevLink.href = "#";
@@ -139,6 +142,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     paginationList.appendChild(prevButton);
 
+    // Tombol halaman
     for (let i = 1; i <= totalPages; i++) {
       const pageItem = document.createElement("li");
       const pageLink = document.createElement("a");
@@ -159,6 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "hover:text-gray-700"
       );
 
+      // Menandai halaman aktif
       if (i === currentPage) {
         pageLink.classList.add(
           "z-10",
@@ -181,6 +186,7 @@ document.addEventListener("DOMContentLoaded", () => {
       paginationList.appendChild(pageItem);
     }
 
+    // Tombol "Next"
     const nextButton = document.createElement("li");
     const nextLink = document.createElement("a");
     nextLink.href = "#";
@@ -216,12 +222,31 @@ document.addEventListener("DOMContentLoaded", () => {
     paginationContainer.appendChild(paginationList); // Menambahkan daftar pagination ke kontainer
   };
 
+  // Memanggil fetchEvents untuk memulai aplikasi
   fetchEvents();
 
-  inputSearch.addEventListener("input", async (e) => {
-    const search = e.target.value.trim().toLowerCase();
+  // Fungsi pencarian untuk memfilter data event
+  const searchEvents = (query) => {
+    if (query.trim() === "") {
+      filteredEvents = eventsData; // Jika tidak ada pencarian, tampilkan semua event
+    } else {
+      filteredEvents = eventsData.filter(
+        (event) =>
+          event.title.toLowerCase().includes(query.toLowerCase()) ||
+          event.category_name.toLowerCase().includes(query.toLowerCase()) ||
+          event.place.toLowerCase().includes(query.toLowerCase()) ||
+          event.location.toLowerCase().includes(query.toLowerCase())
+      );
+    }
 
-    fetchEvents(search);
+    currentPage = 1; // Reset ke halaman pertama setelah pencarian
+    renderPage(currentPage); // Render halaman pertama dengan hasil pencarian
+    renderPagination(); // Render ulang pagination
+  };
+
+  // Event listener untuk input pencarian
+  inputSearch.addEventListener("input", (e) => {
+    searchEvents(e.target.value);
   });
 
   const handleDateChange = async () => {

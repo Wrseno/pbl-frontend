@@ -5,23 +5,33 @@ const tableBody = document.getElementById("table-body");
 const paginationContainer = document.getElementById("pagination-container");
 const inputSearch = document.getElementById("search-input"); // Pastikan id ini ada di HTML
 const EVENTS_PER_PAGE = 5; // Jumlah event per halaman
+const datePickerRangeStart = document.getElementById("datepicker-range-start");
+const datePickerRangeEnd = document.getElementById("datepicker-range-end");
+
 let currentPage = 1;
 let eventsData = []; // Menyimpan semua data event
 let filteredEvents = []; // Menyimpan data yang difilter berdasarkan pencarian
 
 document.addEventListener("DOMContentLoaded", () => {
   // Fungsi untuk mengambil event dari API
-  const fetchEvents = async (search = "") => {
+  const fetchEvents = async (search = "", filterDate = "") => {
     const {userId} = await getProfileUser();
-    let url = `${API_BASE_URL}/registration?user_id=${userId}&has_present=true`; // Ambil semua data
+    let url = `${API_BASE_URL}/registration?user_id=${userId}&has_present=true`;
 
-    if (search) {
-      url = `${API_BASE_URL}/registration?search=${search}&user_id=${userId}&has_present=true`; // Filter berdasarkan pencarian
+    if (filterDate) {
+      url += `&${filterDate}`;
+    } else if (search) {
+      url += `&search=${search}`;
     }
 
     try {
-      const response = await fetch(url);
+      const response = await fetch(url, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
       const {data} = await response.json();
+      console.log(data);
 
       if (!data || data.length === 0) {
         tableBody.innerHTML = `<p class="font-semibold p-8 text-center">Tidak ada event yang diikuti.</p>`;
@@ -239,4 +249,19 @@ document.addEventListener("DOMContentLoaded", () => {
   inputSearch.addEventListener("input", (e) => {
     searchEvents(e.target.value);
   });
+
+  const handleDateChange = async () => {
+    const dateStart = datePickerRangeStart.value;
+    const dateEnd = datePickerRangeEnd.value;
+
+    if (dateStart && dateEnd) {
+      const filterDate = `date_from=${dateStart}&date_to=${dateEnd}`;
+      await fetchEvents("", filterDate);
+    } else {
+      console.log("Both dateStart and dateEnd are required.");
+    }
+  };
+
+  datePickerRangeStart.addEventListener("change", handleDateChange);
+  datePickerRangeEnd.addEventListener("change", handleDateChange);
 });

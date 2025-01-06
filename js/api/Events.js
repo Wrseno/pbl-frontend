@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <div class="flex gap-2 items-center">
                       ${CalendarSvgIcon}
                       <p class="poppins-tight">${formattedDate(
-                        event.date_add
+                        event.date_start
                       )}</p>
                     </div>
                   </div>              
@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <div class="flex gap-2 items-center">
                       ${CalendarSvgIcon}
                       <p class="poppins-tight">${formattedDate(
-                        event.date_add
+                        event.date_start
                       )}</p>
                     </div>
                   </div>              

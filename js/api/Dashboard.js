@@ -12,7 +12,7 @@ const usernameText = document.getElementById("username-dashboard");
 
   try {
     const eventJoinedResponse = await fetch(
-      `${API_BASE_URL}/registration?user_id=${userId}&not_present=true`,
+      `${API_BASE_URL}/registration?user_id=${userId}&not_present=true&upcoming=true`,
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -30,6 +30,7 @@ const usernameText = document.getElementById("username-dashboard");
 
     const {data: eventJoined} = await eventJoinedResponse.json();
     const {data: eventHasPresent} = await eventHasPresentResponse.json();
+    console.log(eventHasPresent);
 
     if (eventJoined) {
       const event = eventJoined[0];

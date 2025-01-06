@@ -47,6 +47,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const {data: events} = await eventsResponse.json();
     const {data: upcomingEvent} = await upcomingEventResponse.json();
     const {data: mostLikedEvents} = await likesResponse.json();
+    console.log(mostLikedEvents);
 
     if (!eventsResponse.ok) {
       throw new Error(`Failed to fetch events: ${eventsResponse.statusText}`);
@@ -114,7 +115,7 @@ function renderCategories(categories) {
   });
 }
 
-async function fetchEventsByCategory(categoryName) {
+export async function fetchEventsByCategory(categoryName) {
   try {
     const response = await fetch(
       `${API_BASE_URL}/available_events?category=${categoryName}`
