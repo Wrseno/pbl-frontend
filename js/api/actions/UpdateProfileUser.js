@@ -1,6 +1,14 @@
 import {API_BASE_URL} from "../../config.js";
 import {getProfileUser} from "../../utils.js";
 
+const notyf = new Notyf({
+  duration: 1000,
+  position: {
+    x: "right",
+    y: "top",
+  },
+});
+
 document.addEventListener("DOMContentLoaded", async () => {
   const btnUpdate = document.getElementById("btn-update-profile");
   const usernameInputModal = document.getElementById("username-modal");

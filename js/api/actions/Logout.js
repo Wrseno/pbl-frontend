@@ -18,10 +18,15 @@ logoutButton?.addEventListener("click", async () => {
       },
     });
     const result = await response.json();
-    localStorage.removeItem("token");
 
+    // Hapus token di localStorage dan cookie
+    localStorage.removeItem("token");
+    document.cookie = "access_token=; path=/; max-age=0";
+
+    // Notifikasi sukses
     notyf.success("Berhasil logout");
 
+    // Update UI
     setTimeout(() => {
       window.location.href = "index";
     }, 1000);

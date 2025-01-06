@@ -10,8 +10,19 @@ const notyf = new Notyf({
 document.getElementById("loginForm").addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value.trim();
+
+  // Validasi Input
+  if (!email || !password) {
+    notyf.error("Email dan password harus diisi!");
+    return;
+  }
+
+  if (!/\S+@\S+\.\S+/.test(email)) {
+    notyf.error("Email tidak valid!");
+    return;
+  }
 
   try {
     const response = await fetch(`${API_BASE_URL}/auth`, {
@@ -19,24 +30,26 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        email,
-        password,
-      }),
+      body: JSON.stringify({email, password}),
     });
 
-    const {data} = await response.json();
+    const result = await response.json();
+    console.log(result);
 
     if (response.ok) {
       notyf.success("Berhasil login!");
-      localStorage.setItem("token", data.access_token);
+      const {access_token} = result.data;
+      localStorage.setItem("token", access_token);
+      document.cookie = `access_token=${access_token}; path=/; max-age=3600`;
+
       setTimeout(() => {
-        window.location.replace("index");
-      }, 500);
+        window.location.href = "index";
+      }, 1000);
     } else {
-      notyf.error("Gagal login!");
+      notyf.error(result.message || "Gagal login!");
     }
   } catch (error) {
-    console.error("Error : ", error);
+    console.error("Error:", error);
+    notyf.error("Terjadi kesalahan. Silakan coba lagi.");
   }
 });

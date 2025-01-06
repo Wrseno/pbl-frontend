@@ -14,12 +14,12 @@ const addReplyComment = () => {
       buttonReply.forEach((button) => {
         button.addEventListener("click", function () {
           const parentUserIdComment = this.closest(".grid")
-            .querySelector("[data-parent-user-id]")
-            .getAttribute("data-parent-user-id");
+            .querySelector("[data-user-id]")
+            .getAttribute("data-user-id");
 
           const commentId = this.closest(".grid")
-            .querySelector("[data-parent-comment-id]")
-            .getAttribute("data-parent-comment-id");
+            .querySelector("[data-comment-id]")
+            .getAttribute("data-comment-id");
 
           // Menampilkan input untuk balasan
           let showReplyInput = document.getElementById(
