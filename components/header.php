@@ -2,7 +2,9 @@
   const token = localStorage.getItem("token");
 
   if (token) {
-    document.cookie = `access_token=${token}; path=/; max-age=3600`; // Set cookie untuk 1 jam
+    document.cookie = `access_token=${token}; path=/; max-age=3600`; 
+  } else {
+    document.cookie = `access_token=''; path=/; max-age=0`; 
   }
 </script>
 
@@ -98,7 +100,7 @@
                 >Event telah diikuti</a
               >
               <a
-                href="./history-events"
+                href="./favorit-events"
                 class="p-2 text-sm hover:bg-gray-100 w-full block rounded-md"
                 >Event favorit</a
               >

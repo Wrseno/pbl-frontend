@@ -30,7 +30,7 @@
       id="events-container"
     ></swiper-container>
   </div>
-  <div class="absolute top-0 right-0">
+  <div class="absolute top-0 right-4">
     <a
       href="events"
       class="poppins-medium mt-8 p-2 px-6 bg-gradient-to-r from-yellow-300 via-tertiary to-yellow-300 text-white rounded-full"
