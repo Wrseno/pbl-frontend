@@ -8,7 +8,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard</title>
+    <title>Favorit Events</title>
     <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css" />
@@ -39,9 +39,9 @@
     <div class="p-4">
       <div class="p-4 rounded-lg mt-14">
         <h2 class="text-2xl font-bold text-tertiary">
-          Event yang telah diikuti
+          Event yang disukai
         </h2>
-        <p class="mb-4">Daftar event yang pernah diikuti</p>
+        <p class="mb-4">Daftar event yang disukai</p>
 
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
           <div
@@ -131,7 +131,7 @@
         },
       });
     </script>
-    <script src="js/api/HistoryEvent.js" type="module"></script>
+    <script src="js/api/FavoritEvents.js" type="module"></script>
     <script src="js/api/getUserLogin.js" type="module"></script>
     <script src="js/api/actions/UpdateProfileUser.js" type="module"></script>
     <script src="js/api/actions/Logout.js" type="module"></script>

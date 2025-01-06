@@ -34,7 +34,7 @@
     </style>
   </head>
 
-  <body class="bg-white-50">
+  <body class="bg-white-50 overflow-x-hidden">
     <?php include_once './components/header.php'; ?>
 
     <main class="container mx-auto max-w-screen-2xl p-12 grid gap-y-14 h-full">
@@ -86,7 +86,7 @@
         </div>
 
         <!-- Swiper for Upcoming Events -->
-        <div class="relative hidden md:block">
+        <div class="relative container mx-auto hidden md:block">
           <swiper-container
             class="mySwiper max-w-[400px] lg:max-w-full"
             pagination="true"
@@ -108,7 +108,7 @@
         <h2 class="text-2xl font-bold mb-4">Event Paling Banyak Disukai</h2>
 
         <!-- Swiper for Recommended Events -->
-        <div class="relative">
+        <div class="relative container mx-auto hidden md:block">
           <div class="swiper mySwiper2">
             <div class="swiper mySwiper">
               <swiper-container
@@ -229,6 +229,7 @@
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
     <script src="./js/api/ListAllEvents.js" type="module"></script>
     <script src="./js/api/GetUserLogin.js" type="module"></script>
+    <script src="./js/api/Categories.js" type="module"></script>
     <script src="js/api/actions/UpdateProfileUser.js" type="module"></script>
     <script src="./js/api/actions/Logout.js" type="module"></script>
   </body>

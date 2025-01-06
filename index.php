@@ -33,7 +33,7 @@
         <?php include_once './components/section-hero.php'?>
         <?php include_once './components/section-events.php'?>
         <?php include_once './components/section-download.php'?>
-        <?php //include_once './components/section-category.php'?>
+        <?php include_once './components/section-category.php'?>
         <?php include_once './components/section-about.php'?>
       </div>
     </main>
@@ -53,6 +53,7 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
     <script src="js/api/Events.js" type="module"></script>
+    <script src="js/api/Categories.js" type="module"></script>
     <script src="js/api/actions/Logout.js" type="module"></script>
     <script src="js/api/getUserLogin.js" type="module"></script>
     <script src="js/api/actions/UpdateProfileUser.js" type="module"></script>

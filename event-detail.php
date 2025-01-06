@@ -29,8 +29,6 @@
   <body class="poppins-regular">
     <main class="container mx-auto max-w-screen-2xl">
       <div id="loading-container"></div>
-      <!-- <section id="event-detail-container"></section> -->
-      <!-- Breadcrumb -->
       <nav class="flex px-8 py-3 text-gray-700" aria-label="Breadcrumb">
         <ol
           class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse"
